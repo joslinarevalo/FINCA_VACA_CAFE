@@ -64,10 +64,10 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 		exit();
 	}
 } else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos'] == "si_registro") {
-	if (isset($_POST['int_cant_parto']) && isset($_POST['dat_fecha_ult_parto'])) {
+	if ($_POST['tipo_bovino']=="vaca_lechera") {
 		$id_insertar = $modelo->retonrar_id_insertar("tb_expediente");
 		$estado_bovino = "activo";
-		$array_insertar_r = array(
+		$array_insertar = array(
 			"table" => "tb_expediente",
 			"int_idexpediente" => $id_insertar,
 			"nva_nom_bovino" => $_POST['nom_bovino'],
@@ -80,8 +80,9 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 			"int_idraza" => $_POST['raza_bovino_select'],
 			"nva_tipo_bovino" => $_POST['tipo_bovino'],
 			"dat_fecha_ult_parto" => $modelo->formatear_fecha($_POST['fecha_ult_parto']),
+		   
 		);
-		$result = $modelo->insertar_generica($array_insertar_r);
+		
 	} else {
 		$id_insertar = $modelo->retonrar_id_insertar("tb_expediente");
 		$estado_bovino = "activo";
@@ -97,9 +98,9 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 			"int_idraza" => $_POST['raza_bovino_select'],
 			"nva_tipo_bovino" => $_POST['tipo_bovino']
 		);
-		$result = $modelo->insertar_generica($array_insertar);
+		
 	}
-
+    $result = $modelo->insertar_generica($array_insertar);
 	
 	if ($result[0] == '1') {
 		print json_encode(array("Exito", $id_insertar, $result));

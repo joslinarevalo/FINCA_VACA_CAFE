@@ -326,8 +326,6 @@
     <script src="../plugins/bootstrap-filestyle/js/bootstrap-filestyle.min.js"></script>
     <script src="../Scripts/funcion_expediente.js"></script>
 
-
-
 </body>
 
 </html>

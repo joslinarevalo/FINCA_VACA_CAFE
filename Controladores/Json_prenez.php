@@ -111,7 +111,8 @@
 	    tb_preñez
 	    INNER JOIN
 	    tb_expediente  ON 
-		int_bovino_fk = int_idexpediente";
+		int_bovino_fk = int_idexpediente
+WHERE nva_estado_bovino ='preñada'";
 		$result = $modelo->get_query($sql);
 		if($result[0]=='1'){
 			
