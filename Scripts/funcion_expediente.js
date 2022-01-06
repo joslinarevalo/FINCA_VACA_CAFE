@@ -386,6 +386,7 @@ function cargar_datos() {
 	}).done(function (json) {
 		console.log("EL consultar", json);
 		$("#datos_tabla").empty().html(json[1]);
+		$('#tabla_expediente').DataTable();
 		$('#md_registrar_expediente').modal('hide');
 	}).fail(function () {
 

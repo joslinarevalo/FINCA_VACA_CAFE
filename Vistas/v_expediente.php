@@ -56,68 +56,30 @@
         <!-- CCONTENIDO DE LA PÁGINA -->
             <div class="content-wrapper">
                   <section class="content">
-                      <div class="container-fluid">
-                        <div class="row">
-                        <div class="col-12 col-sm-12">
-                            <div class="card header">
-                                <div class="card card-success">
-                                    <div class="card-header">
-                                        <h1 class=" text-center">Registro de Expediente</h1>
-                                    </div>
-                                </div>
-                                <form action="enhanced-results.html">
-                                    <div class="row">
-                                        <div class="col-md-10 offset-md-1 ">
-                                            <div class="row">
-                                                <div class="col-9">
-                                                    <div class="form-group ">
-                                                        <div class="input-group">
-                                                            <input type="text" class="form-control" placeholder="...">
-                                                            <div class="input-group-append">
-                                                                <button type="submit" class="btn btn-default float-right">
-                                                                    <i class="fa fa fa-search "></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-tools">
-                                                    <a class="btn btn-success " href="#md_registrar_expediente" data-toggle="modal">
-                                                        <i class="fas fa-plus-circle"></i>
-                                                        Nuevo Expediente
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                         </div>
-                                         </form>
-                                          </div>
-                                          </div>
-                                          </div>
-                                            <div class="card">
+                       <div class="card">
+                    <div class="card-header bg-success">
 
-                                                <div class="col-xs-12">
-                                                    <div class="col-xs-1"></div>
-                                                    <div class="col-xs-10">
-                                                        <div id="resultados"></div>
-                                                    </div>
-                                                    <div class="col-xs-1"></div>
-                                                </div>
+                        <h2 class=" card-title">Registro de Expediente</h2>
+                        <div class="card-tools">
+                            <a class="btn btn-success " href="#md_registrar_expediente" data-toggle="modal">
+                                <i class="fas fa-plus-circle"></i>
+                                Nuevo Expediente
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="col-xs-1"></div>
+                        <div class="col-xs-10">
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <!-- TABLA VACUNA -->
+                        <div class="card-body p-0" id="datos_tabla">
 
-                                                 <!-- TABLA PREÑEZ -->
 
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="card m-b-20">
-                                                            <div class="card-body" id="datos_tabla">
-
-                                                            </div>
-                                                         </div>
-                                                    </div> <!-- end col -->
-                                                </div> <!-- end row -->
-                                                <!-- /.card-body -->
-                                            </div>
+                        </div>
+                    </div>
+                </div>
                   </section>
                   <div class="modal fade" id="md_registrar_expediente">
                         <form name="formulario_registro" id="formulario_registro">
