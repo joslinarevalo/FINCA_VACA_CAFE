@@ -77,7 +77,9 @@ FROM
 	INNER JOIN
 	tb_expediente
 	ON 
-		id_exped_aplicado = int_idexpediente";
+		id_exped_aplicado = int_idexpediente
+			WHERE
+	nva_estado_bovino = 'activo' or nva_estado_bovino = 'parida' or nva_estado_bovino = 'preñada' ";
 		$result = $modelo->get_query($sql);
 		if($result[0]=='1'){
           

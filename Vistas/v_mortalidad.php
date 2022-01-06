@@ -112,7 +112,7 @@
                                                 <select class="form-control" name="idexpeiente_baja" id="idexpeiente_baja" class="form-control select2">
                                                     <option value="Seleccione">Seleccione</option>
                                                     <?php
-                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'activo'");
+                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'activo' or nva_estado_bovino = 'preñada'");
                                                     $query->execute();
                                                     $data = $query->fetchAll();
 

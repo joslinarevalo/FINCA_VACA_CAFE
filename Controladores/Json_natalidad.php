@@ -99,7 +99,7 @@
 			                </td>
 	                        </tr>';	
 			}
-			$html.='<table id="tabla_natalidad" lass="table table-striped projects" cellspacing="0" width="100%">
+			$html.='<table id="tabla_natalidad" class="table table-striped projects" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th>Nombre del Recien Nacido</th>

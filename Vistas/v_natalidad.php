@@ -108,7 +108,7 @@
                                                 <select class="form-control" name="int_id_expe_madre" id="int_id_expe_madre" class="form-control select2" data-parsley-required-message="Campo requerido" required>
                                                     <option value="0">Seleccione</option>
                                                     <?php
-                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'activo' and nva_tipo_bovino='vaca_lechera'");
+                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'parida' and nva_tipo_bovino='vaca_lechera'");
                                                     $query->execute();
                                                     $data = $query->fetchAll();
 

@@ -1,25 +1,8 @@
 
 //$home="http://localhost/DISEÑO-G07_Json/";
-
-function validar_campito(){
-
-$(document).on("change","#tipo_bovino",function(e){
-		e.preventDefault();
-
-		if ($("#tipo_bovino").val() == "vaca_lechera"){
- 				$("#cant_parto_bovino").prop("disabled", false);
- 				$("#fecha_ult_parto").prop("disabled", false);
-
- 		}else{
- 				$("#cant_parto_bovino").prop("disabled", true);
- 				$("#fecha_ult_parto").prop("disabled", true);
- 		}
-	});
-}
 			
 $(function () {
-
-
+	cargar_datos();
 	var fecha_hoy = new Date();
 	$('#fecha_ult_parto').datepicker({
 		format: "dd/mm/yyyy",
@@ -32,8 +15,6 @@ $(function () {
 		endDate: fecha_hoy
 		//startDate:fecha_hoy
 	});
-	cargar_datos();
-
 
 	$(document).on("click", ".browse", function () {
 		var file = $(this)
@@ -43,7 +24,6 @@ $(function () {
 			.find(".file");
 		file.trigger("click");
 	});
-
 
 	$('input[type="file"]').change(function (e) {
 		var fileName = e.target.files[0].name;
@@ -74,34 +54,6 @@ $(function () {
 		reader.readAsDataURL(this.files[0]);
 	});
 
-
-	$(document).on("blur", ".validar_campos_unicos", function (e) {
-		e.preventDefault();
-		if ($(this).val() == "") {
-			return;
-		}
-		console.log("validar_campo", $(this).data('quien_es'));
-		mostrar_mensaje("Espere", "Validando " + $(this).data('quien_es'));
-		var datos = { "validar_campos": "si_por_campo", "campo": $(this).val(), "tipo": $(this).data('quien_es') };
-
-		console.log("datos: ", datos);
-		$.ajax({
-			dataType: "json",
-			method: "POST",
-			url: '../Controladores/Json_expediente.php',
-			data: datos,
-		}).done(function (json) {
-			console.log("retorno de validacion", json);
-			if (json[0] == "Exito") {
-
-			}
-			console.log("El envio: ", json);
-		}).always(function () {
-			Swal.close();
-		});
-
-	});
-
 	$(document).on("change", "#imagen_expediente", function (e) {
 		validar_archivo($(this));
 
@@ -113,10 +65,10 @@ $(function () {
 
 	$(document).on("click",".btn_editar",function(e){
      e.preventDefault(); 
-	//	mostrar_mensaje("Consultando datos");
+		//	mostrar_mensaje("Consultando datos");
 		var id = $(this).attr("data-int_idexpediente");
 		console.log("El id es: ",id);
-		var datos = {"consultar_info":"si_nombre_especifico","idexpediente":id}
+		var datos = {"consultar_info":"si_expediente_especifico","int_idexpediente":id}
 		$.ajax({
 	        dataType: "json",
 	        method: "POST",
@@ -133,11 +85,11 @@ $(function () {
 	    		console.log("propietario: ",json[2]['int_id_propietario']);
 	    		console.log("raza: ",json[2]['int_idraza']);
 	    		console.log("tipo bovino: ",json[2]['nva_tipo_bovino']);
+
 	    		$('#llave_expediente').val(id);
 	    		$('#ingreso_datos').val("si_actualizalo");
-	    	  //  $('#fecha_ult_parto').val(fecha);
+	    	   // $('#fecha_ult_parto').val(fecha);
 	    		$('#nom_bovino').val(json[2]['nva_nom_bovino']);
-	    		$('#sexo_bovino').val(json[2]['nva_sexo_bovino']);
 	    		$('#cant_parto_bovino').val(json[2]['int_cant_parto']);
 	    		$('#descrip_expediente').val(json[2]['txt_descrip_expediente']);
 	    		$('#propietario').val(json[2]['int_id_propietario']);
@@ -182,6 +134,7 @@ $(function () {
 	        timer: 7000
     	});
 		console.log("Imprimiendo datos: ", datos);
+
 		if ($("#tipo_bovino").val() == "Seleccione"){
  			Toast.fire({
 		        icon: 'info',
@@ -211,7 +164,7 @@ $(function () {
  		}if ($("#imagen_bovino").val() == ""){
  			Toast.fire({
 		        icon: 'info',
-		        title: 'Debe elegir la imagen del bo'
+		        title: 'Debe elegir la imagen del bovino'
 		    });
 			return;
  		}
@@ -243,18 +196,18 @@ $(function () {
 					subir_archivo($("#imagen_expediente"), json[1], "subir_imagen_ajax");
 
 				
-				}else{
-						mostrar_mensaje("Error", "algo paso");
 				}
+			
 				cargar_datos();
-			} else {
+				console.log("esto trae", campo_igual);
+			
+			}else {
 				Toast.fire({
 	            	icon: 'error',
 	            	title: 'No se pudo registrar!.'
        			});
 				cargar_datos();
 			}
-
 		});
 	});
 
@@ -307,8 +260,8 @@ function validar_archivo(file) {
 function subir_archivo(archivo, int_idexpediente, metodo) {
 
 	Swal.fire({
-		title: '¡Subiendo imagen!',
-		html: 'Por favor espere mientras se sube el archivo',
+		//title: '¡Subiendo imagen!',
+	//	html: 'Por favor espere mientras se sube el archivo',
 		timerProgressBar: true,
 		allowEscapeKey: false,
 		allowOutsideClick: false,
@@ -348,7 +301,7 @@ function subir_archivo(archivo, int_idexpediente, metodo) {
 			if (json[0] == "Exito") {
 				Swal.fire(
 					'¡Excelente!',
-					'La información ha sido almacenada correctamente!',
+					//'La información ha sido almacenada correctamente!',
 					'success'
 				);
 				$('#md_registrar_expediente').modal('hide');
@@ -376,7 +329,7 @@ $(document).on("click", ".btn_cerrar_class", function (e) {
 });
 
 function cargar_datos() {
-	mostrar_mensaje("Consultando datos");
+	
 	var datos = { "consultar_info": "si_consultala" }
 	$.ajax({
 		dataType: "json",
@@ -386,6 +339,7 @@ function cargar_datos() {
 	}).done(function (json) {
 		console.log("EL consultar", json);
 		$("#datos_tabla").empty().html(json[1]);
+	    $('#tabla_expediente').DataTable();
 		$('#md_registrar_expediente').modal('hide');
 	}).fail(function () {
 
