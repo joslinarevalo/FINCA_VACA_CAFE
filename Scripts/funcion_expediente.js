@@ -179,8 +179,9 @@ $(function () {
 	        toast: true,
 	        position: 'top-end',
 	        showConfirmButton: false,
-	        timer: 7000
+	        timer: 1500
     	});
+
 		console.log("Imprimiendo datos: ", datos);
 		if ($("#tipo_bovino").val() == "Seleccione"){
  			Toast.fire({
@@ -211,7 +212,7 @@ $(function () {
  		}if ($("#imagen_bovino").val() == ""){
  			Toast.fire({
 		        icon: 'info',
-		        title: 'Debe elegir la imagen del bo'
+		        title: 'Debe elegir la imagen del bovino'
 		    });
 			return;
  		}
@@ -225,13 +226,10 @@ $(function () {
 		}).done(function (json) {
 			console.log("EL GUARDAR", json);
 			if (json[0] == "Exito") {
-				$('#md_registrar_expediente').trigger('reset');
+				
 			  	$('#md_registrar_expediente').modal('hide');
 		
-				Toast.fire({
-	            	icon: 'success',
-	            	title: 'Expediente Registrado!.'
-       			});
+				
 				if ($("#imagen_expediente").val() != "" && $("#imagen_bovino").val() != "" ) {
 
 					subir_archivo($("#imagen_expediente"), json[1], "subir_imagen_ajax");
@@ -246,8 +244,29 @@ $(function () {
 				}else{
 						mostrar_mensaje("Error", "algo paso");
 				}
+				$('#md_registrar_expediente').trigger('reset');
+				    	Swal.fire({
+							  position: 'top-end',
+							  icon: 'success',
+							  title: 'Expediente Registrado!',
+							  showConfirmButton: false,
+							  timer: 1500
+							});
+				Toast.fire({
+	            	icon: 'success',
+	            	title: 'Expediente Registrado!.'
+       			});
+
+       			
 				cargar_datos();
-			} else {
+				return;
+			} else if (json[1] == "existe bovino"){
+	 			Toast.fire({
+			        icon: 'info',
+			        title: 'Bovino ya existe'
+			    });
+				return;
+ 			}else {
 				Toast.fire({
 	            	icon: 'error',
 	            	title: 'No se pudo registrar!.'

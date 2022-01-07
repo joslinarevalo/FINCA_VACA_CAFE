@@ -51,11 +51,11 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 	$sql = "SELECT
 					*
 				FROM
-					tb_expediente WHERE int_idexpediente = '$_POST[idexpediente]'";
+					tb_expediente WHERE int_idexpediente = '$_POST[int_idexpediente]'";
 
 
 	$resultado = $modelo->get_query($sql);
-	//get_todos("tb_expediente","WHERE int_idexpediente = '".$_POST['idexpediente']."'");
+	//get_todos("tb_expediente","WHERE int_idexpediente = '".$_POST['idexpediente']."'"); cambios aqui en ideexpediente
 	if ($resultado[0] == '1') {
 		print json_encode(array("Exito", $_POST, $resultado[2][0]));
 		exit();
@@ -63,53 +63,122 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 		print json_encode(array("Error", $_POST, $resultado));
 		exit();
 	}
-} else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos'] == "si_registro") {
-	if ($_POST['tipo_bovino']=="vaca_lechera") {
-		$id_insertar = $modelo->retonrar_id_insertar("tb_expediente");
-		$estado_bovino = "activo";
-		$array_insertar = array(
-			"table" => "tb_expediente",
-			"int_idexpediente" => $id_insertar,
-			"nva_nom_bovino" => $_POST['nom_bovino'],
-			"nva_estado_bovino" => $estado_bovino,
+}else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos'] == "si_registro") {
 
-			"nva_sexo_bovino" => $_POST['sexo_bovino'],
-			"int_cant_parto" => $_POST['cant_parto_bovino'],
-			"txt_descrip_expediente" => $_POST['descrip_expediente'],
-			"int_id_propietario" => $_POST['propietario'],
-			"int_idraza" => $_POST['raza_bovino_select'],
-			"nva_tipo_bovino" => $_POST['tipo_bovino'],
-			"dat_fecha_ult_parto" => $modelo->formatear_fecha($_POST['fecha_ult_parto']),
-		   
-		);
-		
-	} else {
-		$id_insertar = $modelo->retonrar_id_insertar("tb_expediente");
-		$estado_bovino = "activo";
-		$array_insertar = array(
-			"table" => "tb_expediente",
-			"int_idexpediente" => $id_insertar,
-			"nva_nom_bovino" => $_POST['nom_bovino'],
-			"nva_estado_bovino" => $estado_bovino,
+		$encontro = "";
+		//consulta para obtener el nombre 
+		$sql = "SELECT
+				nva_nom_bovino 
+				FROM
+				tb_expediente;";
 
-			"nva_sexo_bovino" => $_POST['sexo_bovino'],
-			"txt_descrip_expediente" => $_POST['descrip_expediente'],
-			"int_id_propietario" => $_POST['propietario'],
-			"int_idraza" => $_POST['raza_bovino_select'],
-			"nva_tipo_bovino" => $_POST['tipo_bovino']
-		);
-		
-	}
-    $result = $modelo->insertar_generica($array_insertar);
+		$result_nombre = $modelo->get_query($sql);
+
+		//verifivamos si obtuvimos usuarios o no
+		if($result_nombre[0]=='1'){
+
+			foreach ($result_nombre[2] as $row) {
+				
+				if ($row['nva_nom_bovino'] == $_POST['nom_bovino']) {
+					$encontro = "nombre econtrado";
+					break;
+				}
+			}
+			//si encontramos un nombre identico, notificamos antes de guardar
+			if ($encontro == "nombre econtrado") {
+				print json_encode(array("Error","existe bovino",$result_nombre));
+				exit();
+			//si encontramos un empleado con un usuario creado, notificamos antes de guardar
+			}else{
+	            if ($_POST['tipo_bovino']=="vaca_lechera") {
+					$id_insertar = $modelo->retonrar_id_insertar("tb_expediente");
+					$estado_bovino = "activo";
+					$array_insertar = array(
+						"table" => "tb_expediente",
+						"int_idexpediente" => $id_insertar,
+						"nva_nom_bovino" => $_POST['nom_bovino'],
+						"nva_estado_bovino" => $estado_bovino,
+
+						"nva_sexo_bovino" => $_POST['sexo_bovino'],
+						"int_cant_parto" => $_POST['cant_parto_bovino'],
+						"txt_descrip_expediente" => $_POST['descrip_expediente'],
+						"int_id_propietario" => $_POST['propietario'],
+						"int_idraza" => $_POST['raza_bovino_select'],
+						"nva_tipo_bovino" => $_POST['tipo_bovino'],
+						"dat_fecha_ult_parto" => $modelo->formatear_fecha($_POST['fecha_ult_parto']));		
+				} else {
+					$id_insertar = $modelo->retonrar_id_insertar("tb_expediente");
+					$estado_bovino = "activo";
+					$array_insertar = array(
+						"table" => "tb_expediente",
+						"int_idexpediente" => $id_insertar,
+						"nva_nom_bovino" => $_POST['nom_bovino'],
+						"nva_estado_bovino" => $estado_bovino,
+
+						"nva_sexo_bovino" => $_POST['sexo_bovino'],
+						"txt_descrip_expediente" => $_POST['descrip_expediente'],
+						"int_id_propietario" => $_POST['propietario'],
+						"int_idraza" => $_POST['raza_bovino_select'],
+						"nva_tipo_bovino" => $_POST['tipo_bovino']);
+				}
+    			$result = $modelo->insertar_generica($array_insertar);
 	
-	if ($result[0] == '1') {
-		print json_encode(array("Exito", $id_insertar, $result));
-		exit();
-	} else {
-		print json_encode(array("Error", $result));
-		exit();
+				if ($result[0] == '1') {
+					print json_encode(array("Exito", $id_insertar, $result));
+					exit();
+				} else {
+					print json_encode(array("Error", $result));
+					exit();
+				}
+				
+			}
+
+		}else {
+			if ($_POST['tipo_bovino']=="vaca_lechera") {
+					$id_insertar = $modelo->retonrar_id_insertar("tb_expediente");
+					$estado_bovino = "activo";
+					$array_insertar = array(
+						"table" => "tb_expediente",
+						"int_idexpediente" => $id_insertar,
+						"nva_nom_bovino" => $_POST['nom_bovino'],
+						"nva_estado_bovino" => $estado_bovino,
+
+						"nva_sexo_bovino" => $_POST['sexo_bovino'],
+						"int_cant_parto" => $_POST['cant_parto_bovino'],
+						"txt_descrip_expediente" => $_POST['descrip_expediente'],
+						"int_id_propietario" => $_POST['propietario'],
+						"int_idraza" => $_POST['raza_bovino_select'],
+						"nva_tipo_bovino" => $_POST['tipo_bovino'],
+						"dat_fecha_ult_parto" => $modelo->formatear_fecha($_POST['fecha_ult_parto']));		
+			} else {
+					$id_insertar = $modelo->retonrar_id_insertar("tb_expediente");
+					$estado_bovino = "activo";
+					$array_insertar = array(
+						"table" => "tb_expediente",
+						"int_idexpediente" => $id_insertar,
+						"nva_nom_bovino" => $_POST['nom_bovino'],
+						"nva_estado_bovino" => $estado_bovino,
+
+						"nva_sexo_bovino" => $_POST['sexo_bovino'],
+						"txt_descrip_expediente" => $_POST['descrip_expediente'],
+						"int_id_propietario" => $_POST['propietario'],
+						"int_idraza" => $_POST['raza_bovino_select'],
+						"nva_tipo_bovino" => $_POST['tipo_bovino']);
+				}
+    			$result = $modelo->insertar_generica($array_insertar);
+
+    			if ($result[0] == '1') {
+					print json_encode(array("Exito", $id_insertar, $result));
+					exit();
+				} else {
+					print json_encode(array("Error", $result));
+					exit();
+				}
+		}
+			
+		 
 	}
-} else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos']=="si_actualizalo") {
+ else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos']=="si_actualizalo") {
 		$array_update = array(
             "table" => "tb_expediente",
             "int_idexpediente" => $_POST['llave_expediente'],

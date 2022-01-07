@@ -9,6 +9,7 @@
     <!-- Google Font: Source Sans Pro -->
     <meta charset="utf-8">
     <!-- Google Font: Source Sans Pro -->
+
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
     <!-- C3 charts css -->
@@ -36,7 +37,7 @@
     <link rel="stylesheet" href="../plugins/bs-stepper/css/bs-stepper.min.css">
     <!-- dropzonejs -->
     <link rel="stylesheet" href="../plugins/dropzone/min/dropzone.min.css">
-
+     <link rel="stylesheet" href="sweetalert2.min.css">
     <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
@@ -300,6 +301,8 @@
     <script src="../plugins/dropzone/min/dropzone.min.js"></script>
     <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
+    <script src="sweetalert2.all.min.js"></script>
+    <script src="sweetalert2.min.js"></script>
     <script src="../plugins/toastr/toastr.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../dist/js/adminlte.min.js"></script>

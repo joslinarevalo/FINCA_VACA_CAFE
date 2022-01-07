@@ -175,7 +175,7 @@ $(function (){
         	console.log("EL GUARDAR",json);
         	
         	if (json[0] == "Exito") {
-        		$('#md_registrar_prenez').trigger('reset');
+        	$('#md_registrar_prenez').trigger('reset');
         	$('#md_registrar_prenez').modal('hide');
         	}
         	cargar_datos();
@@ -204,6 +204,7 @@ function cargar_datos(){
         data : datos,
     }).done(function(json) {
     	console.log("EL consultar",json);
+    	console.log("esto el status: ",json[4]);
     	$("#datos_tabla").empty().html(json[1]);
     	$('#tabla_preñez').DataTable();
     	$('#md_registrar_prenez').modal('hide');

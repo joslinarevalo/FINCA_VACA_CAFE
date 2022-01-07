@@ -19,22 +19,6 @@
 
 
 
-	}else if (isset($_POST['eliminar_persona']) && $_POST['eliminar_persona']=="si_eliminala") {
-		$array_eliminar = array(
-			"table"=>"tabla_preñez",
-			"int_id_preñez"=>$_POST['int_id_preñez']
-
-		);
-		$resultado = $modelo->eliminar_generica($array_eliminar);
-		if($resultado[0]=='1' && $resultado[4]>0){
-        	print json_encode(array("Exito",$_POST,$resultado));
-			exit();
-
-        }else {
-        	print json_encode(array("Error",$_POST,$resultado));
-			exit();
-        }
-		
 	}else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos']=="si_actualizalo") {
 		$array_update = array(
             "table" => "tb_preñez",
@@ -105,6 +89,7 @@
 	}else{
 		$htmltr = $html="";
 		$cuantos = 0;
+		$status="";
 		$sql = "SELECT dat_fecha_monta,dat_fecha_parto,dat_fecha_celo,
 		int_id_preñez,nva_nom_bovino
         FROM
@@ -112,17 +97,37 @@
 	    INNER JOIN
 	    tb_expediente  ON 
 		int_bovino_fk = int_idexpediente
-WHERE nva_estado_bovino ='preñada'";
+		WHERE nva_estado_bovino ='preñada'";
 		$result = $modelo->get_query($sql);
 		if($result[0]=='1'){
+
+			  
+
+        	$fecha_actual = new DateTime(date('Y-m-d'));//nueva variable para vencimiento//
+
+      
 			
 			foreach ($result[2] as $row) {
+
+				$fecha_final = new DateTime($row['dat_fecha_parto']);
+			    $dias = $fecha_actual->diff($fecha_final)->format('%r%a');
+			        // Si la fecha final es igual a la fecha actual o anterior
+			    if ($dias <= 0) {
+			         $status="Ya pario";
+			        
+			      //si encontramos un empleado con un usuario creado, notificamos antes de guardar
+			    } else if ($dias <= 240) {
+			        $status= "Está a " . $dias . " días de parir";
+			        
+			   	}else if ($dias <= 1) {
+			        $status= "mañana va a parir";			            
+			    }
 				 $htmltr.='<tr>
 	                             <td class="text-center">'.$row['nva_nom_bovino'].'</td>
 	                            <td class="text-center">'.$modelo->formatear_fecha($row['dat_fecha_celo']).'</td>
 	                            <td class="text-center">'.$modelo->formatear_fecha($row['dat_fecha_monta']).'</td>
 	                            <td class="text-center">'.$modelo->formatear_fecha($row['dat_fecha_parto']).'</td>
-	                       
+	                            <td class="text-center"> '.$status.' </td>
 
 	                                <td class="text-center">
 	                            <button class="btn btn-info btn-sm btn_editar "
@@ -141,6 +146,7 @@ WHERE nva_estado_bovino ='preñada'";
                             <th class="text-center">Fecha de Celo</th>
                             <th class="text-center">Fecha de Monta</th>
                             <th class="text-center">Fecha de Parto</th>
+                            <th class="text-center">Alerta</th>
                             <th class="text-center">Acciones</th>
                         </tr>
                     </thead>
@@ -150,7 +156,7 @@ WHERE nva_estado_bovino ='preñada'";
                     	</table>';
 
 
-        	print json_encode(array("Exito",$html,$_POST,$result));
+        	print json_encode(array("Exito",$html,$_POST,$result,$dias));
 
         
 			exit();
