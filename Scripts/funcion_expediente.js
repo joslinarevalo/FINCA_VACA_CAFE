@@ -116,7 +116,7 @@ $(function () {
 	//	mostrar_mensaje("Consultando datos");
 		var id = $(this).attr("data-int_idexpediente");
 		console.log("El id es: ",id);
-		var datos = {"consultar_info":"si_nombre_especifico","idexpediente":id}
+		var datos = {"consultar_info":"si_expediente_especifico","idexpediente":id}
 		$.ajax({
 	        dataType: "json",
 	        method: "POST",
@@ -133,9 +133,12 @@ $(function () {
 	    		console.log("propietario: ",json[2]['int_id_propietario']);
 	    		console.log("raza: ",json[2]['int_idraza']);
 	    		console.log("tipo bovino: ",json[2]['nva_tipo_bovino']);
+	    		//var fecHA_string = json[2]['fecha_ult_parto'];
+			//	var porciones = fecHA_string.split('-');
+				//var fecha = porciones[2]+"/"+porciones[1]+"/"+porciones[0]
 	    		$('#llave_expediente').val(id);
 	    		$('#ingreso_datos').val("si_actualizalo");
-	    	  //  $('#fecha_ult_parto').val(fecha);
+	    	   // $('#fecha_ult_parto').val(fecha);
 	    		$('#nom_bovino').val(json[2]['nva_nom_bovino']);
 	    		$('#sexo_bovino').val(json[2]['nva_sexo_bovino']);
 	    		$('#cant_parto_bovino').val(json[2]['int_cant_parto']);
@@ -245,13 +248,7 @@ $(function () {
 						mostrar_mensaje("Error", "algo paso");
 				}
 				$('#md_registrar_expediente').trigger('reset');
-				    	Swal.fire({
-							  position: 'top-end',
-							  icon: 'success',
-							  title: 'Expediente Registrado!',
-							  showConfirmButton: false,
-							  timer: 1500
-							});
+				    
 				Toast.fire({
 	            	icon: 'success',
 	            	title: 'Expediente Registrado!.'
@@ -407,6 +404,7 @@ function cargar_datos() {
 		$("#datos_tabla").empty().html(json[1]);
 		$('#tabla_expediente').DataTable();
 		$('#md_registrar_expediente').modal('hide');
+		
 	}).fail(function () {
 
 	}).always(function () {

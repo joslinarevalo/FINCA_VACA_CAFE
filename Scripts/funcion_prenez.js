@@ -33,6 +33,38 @@ $(function (){
 	   // endDate:fecha_hoy
 	    startDate:fecha_mañana	});
 
+	$('#dat_fecha_monta_edit').datepicker({
+	    format: "dd/mm/yyyy",
+	    todayBtn: true,
+	    clearBtn: false,
+	    language: "es",
+	    calendarWeeks: true,
+	    autoclose: true,
+	    todayHighlight: true,
+	    endDate:fecha_hoy
+	});
+		$('#dat_fecha_celo_edit').datepicker({
+	    format: "dd/mm/yyyy",
+	    todayBtn: true,
+	    clearBtn: false,
+	    language: "es",
+	    calendarWeeks: true,
+	    autoclose: true,
+	    todayHighlight: true,
+	    endDate:fecha_hoy
+	});
+	$('#dat_fecha_parto_edit').datepicker({
+	    format: "dd/mm/yyyy",
+	    todayBtn: true,
+	    clearBtn: false,
+	    language: "es",
+	    calendarWeeks: true,
+	    autoclose: true,
+	    todayHighlight: true,
+	   // endDate:fecha_hoy
+	    startDate:fecha_mañana	});
+
+
 
 	cargar_datos();
 	// $(".select2").select2();
@@ -73,20 +105,7 @@ $(function (){
 
 
 	});
-	$(document).on("click",".btn_eliminar",function(e){
-		e.preventDefault();
-		var int_id_preñez = $(this).attr("data-int_id_preñez");
-		var datos = {"eliminar_persona":"si_eliminala","int_id_preñez":int_id_preñez}
-		$.ajax({
-	        dataType: "json",
-	        method: "POST",
-	        url:'../Controladores/Json_prenez.php',
-	        data : datos,
-	    }).done(function(json) {
-	    	cargar_datos();
 
-	    });
-	});
 	$(document).on("click",".btn_editar",function(e){
 
 		e.preventDefault(); 
@@ -112,24 +131,18 @@ $(function (){
 				var porciones = fecHA2_string.split('-');
 				var fecha2 = porciones[2]+"/"+porciones[1]+"/"+porciones[0]
 
-	    		$('#llave_persona').val(int_id_preñez);
+	    		$('#llave_personaEditar').val(int_id_preñez);
 	    		$('#ingreso_datos').val("si_actualizalo");
-	    	    $('#int_bovino_fk').val(json[2]['int_bovino_fk']);
-	    		$('#dat_fecha_celo').val(fecha);
-	    		$('#dat_fecha_monta').val(fecha1);
-	    		$('#dat_fecha_parto').val(fecha2);
-	    
-
-	    		$('#md_registrar_prenez').modal('show');
+	    	    $('#int_bovino_edit').val(json[2]['int_bovino_fk']);
+	    	    $('#dat_fecha_celo_edit').val(fecha);
+	    		$('#dat_fecha_monta_edit').val(fecha1);
+	    		$('#dat_fecha_parto_edit').val(fecha2);
+	    		$('#md_actualizar_prenez').modal('show');
 	    	}
 	    	 
-	    }).fail(function(){
-
-	    }).always(function(){
+	    }).fail(function(){ }).always(function(){
 	    	Swal.close();
 	    });
-
-
 	});
 	
     $('#formulario_registroP').validate({
@@ -147,6 +160,54 @@ $(function (){
 	      $(element).removeClass('is-invalid');
 	    }
 	});
+	$('#formulario_Editar').validate({
+	    rules: {	     
+	    },
+	    errorElement: 'span',
+	    errorPlacement: function (error, element) {
+	      error.addClass('invalid-feedback');
+	      element.closest('.input-group').append(error);
+	    },
+	    highlight: function (element, errorClass, validClass) {
+	      $(element).addClass('is-invalid');
+	    },
+	    unhighlight: function (element, errorClass, validClass) {
+	      $(element).removeClass('is-invalid');
+	    }
+	});
+	$(document).on("submit","#formulario_Editar",function(e){
+		e.preventDefault();
+		var datos = $("#formulario_Editar").serialize();
+			var Toast = Swal.mixin({
+	        toast: true,
+	        position: 'top-end',
+	        showConfirmButton: false,
+	        timer: 1000
+    	});
+		if ($("#int_bovino_edit").val() == "Seleccione"){
+ 			    Toast.fire({
+			        icon: 'info',
+			        title: 'Debe elegir el tipo de bovino'
+		         });
+			    return;
+ 		}
+		console.log("Imprimiendo datos: ",datos);
+	    //mostrar_mensaje("Almacenando información","Por favor no recargue la página");
+		$.ajax({
+            dataType: "json",
+            method: "POST",
+            url:'../Controladores/Json_prenez.php',
+            data : datos,
+        }).done(function(json) {
+       		 console.log("EL EDITAR",json);
+        	
+        	if (json[0] == "Exito") {
+        	$('#md_actualizar_prenez').trigger('reset');
+        	$('#md_actualizar_prenez').modal('hide');
+        	}
+        	cargar_datos();
+        	}).fail(function(){ }).always(function(){ });
+    });
 
 	$(document).on("submit","#formulario_registroP",function(e){
 		e.preventDefault();
@@ -155,40 +216,32 @@ $(function (){
 	        toast: true,
 	        position: 'top-end',
 	        showConfirmButton: false,
-	        timer: 7000
+	        timer: 1000
     	});
-			if ($("#int_bovino_fk").val() == "Seleccione"){
- 			Toast.fire({
-		        icon: 'info',
-		        title: 'Debe elegir el tipo de bovino'
-		    });
-			return;
+		if ($("#int_bovino_fk").val() == "Seleccione"){
+ 			    Toast.fire({
+			        icon: 'info',
+			        title: 'Debe elegir el tipo de bovino'
+		         });
+			    return;
  		}
 		console.log("Imprimiendo datos: ",datos);
-	//	mostrar_mensaje("Almacenando información","Por favor no recargue la página");
+	    //mostrar_mensaje("Almacenando información","Por favor no recargue la página");
 		$.ajax({
             dataType: "json",
             method: "POST",
             url:'../Controladores/Json_prenez.php',
             data : datos,
         }).done(function(json) {
-        	console.log("EL GUARDAR",json);
+       		 console.log("EL GUARDAR",json);
         	
         	if (json[0] == "Exito") {
         	$('#md_registrar_prenez').trigger('reset');
         	$('#md_registrar_prenez').modal('hide');
         	}
         	cargar_datos();
-        	
-        	
-        }).fail(function(){
-
-        }).always(function(){
-
-        });
-
-
-	});
+        	}).fail(function(){ }).always(function(){ });
+    });
 
 });
 
@@ -208,6 +261,7 @@ function cargar_datos(){
     	$("#datos_tabla").empty().html(json[1]);
     	$('#tabla_preñez').DataTable();
     	$('#md_registrar_prenez').modal('hide');
+    	$('#md_actualizar_prenez').modal('hide');
 
 		
     }).fail(function(){

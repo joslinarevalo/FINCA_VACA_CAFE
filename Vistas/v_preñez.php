@@ -117,7 +117,7 @@
                                                 <select class="form-control" name="int_bovino_fk" id="int_bovino_fk">
                                                     <option value="Seleccione">Seleccione</option>
                                                     <?php
-                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'activo'");
+                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'activo' and nva_tipo_bovino='vaca_lechera'");
                                                     $query->execute();
                                                     $data = $query->fetchAll();
 
@@ -172,6 +172,111 @@
                                 <div>
 
                                     <button type="submit" id="boton_enviar" class="btn bg-success"><i class="fa fa-save"></i> Guardar</button>
+                                    <button type="button" class="btn btn-success  btn_cerrar_class ">Cerrar</button>
+
+
+
+
+                                </div>
+                        </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+            <!---MODAL MODIFICAR-->
+             
+            <div class="modal fade" id="md_actualizar_prenez" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+
+                <div class="modal-dialog modal-ml" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success">
+                            <h1 class="modal-title text-center ">Actualizar  Preñez </h1>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form name="formulario_Editar" id="formulario_Editar">
+
+                            
+                                <input type="hidden" id="llave_personaEditar" name="llave_personaEditar" value="si_registro">
+
+                                <div class="row">
+
+                                    <div class="col-md-12">
+                                         <?php
+                                        $usuario = 'root';
+                                        $password = '';
+                                        $db = new PDO('mysql:host=localhost;dbname=db_finca', $usuario, $password);
+                                        ?>
+                                        <div class="form-group">
+                                            <label class="control-label">Bovino</label>
+                                            <div class="input-group
+                                            mb-3">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa fa-expand-arrows-alt"></i>
+                                                </span>
+                                                <select class="form-control" name="int_bovino_edit" id="int_bovino_edit">
+                                                    <option value="Seleccione">Seleccione</option>
+                                                    <?php
+                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'preñada' ");
+                                                    $query->execute();
+                                                    $data = $query->fetchAll();
+
+                                                    foreach ($data as $valores) :
+                                                        echo '<option value="' . $valores["int_idexpediente"] . '">' . $valores["nva_nom_bovino"] . '</option>';
+                                                    endforeach;
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                      
+                                      
+                                        <label>Fecha de Celo</label>
+                                        <div class="input-group
+                                                mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas
+                                                            fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control
+                                                    disabled " placeholder="mm/dd/yyyy" required name="dat_fecha_celo_edit" id="dat_fecha_celo_edit" autocomplete="off">
+                                        </div>
+                                        <!-- /.form-group -->
+                                        <label>Fecha de Monta</label>
+                                        <div class="input-group
+                                                mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas
+                                                            fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control
+                                                    disabled" placeholder="mm/dd/yyyy" required name="dat_fecha_monta_edit" id="dat_fecha_monta_edit" autocomplete="off">
+                                        </div>
+                                        <label>Fecha de Parto</label>
+                                        <div class="input-group
+                                                mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas
+                                                 fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control
+                                            disabled" placeholder="mm/dd/yyyy" required name="dat_fecha_parto_edit" id="dat_fecha_parto_edit" autocomplete="off">
+                                        </div>
+                                    </div>
+                                    <!-- /.col -->
+
+                                </div>
+                                <div>
+
+                                    <button type="submit" id="boton_enviar" class="btn bg-success"><i class="fa fa-save"></i> Modificar</button>
                                     <button type="button" class="btn btn-success  btn_cerrar_class ">Cerrar</button>
 
 

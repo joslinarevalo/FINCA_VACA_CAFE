@@ -48,10 +48,8 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 		exit();
 	}
 } else if (isset($_POST['consultar_info']) && $_POST['consultar_info'] == "si_expediente_especifico") {
-	$sql = "SELECT
-					*
-				FROM
-					tb_expediente WHERE int_idexpediente = '$_POST[int_idexpediente]'";
+	$sql = "SELECT *
+				FROM tb_expediente WHERE int_idexpediente = '$_POST[idexpediente]'";
 
 
 	$resultado = $modelo->get_query($sql);

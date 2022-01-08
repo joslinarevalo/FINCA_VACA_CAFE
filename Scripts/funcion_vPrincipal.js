@@ -12,7 +12,7 @@ $(function (){
     	if (json[0]=="Exito"){
 	   
 		   $("#alertas_preñez").empty().html(json[1]);
-		    	 	
+		  	 	
 		}/*else if (json[0]=="2"){
 		   
 		   $("#alert_preñez").empty().html(json[1]);

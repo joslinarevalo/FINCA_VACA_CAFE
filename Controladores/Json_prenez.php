@@ -3,8 +3,6 @@
 	require_once("../Conexion/Modelo.php");
 	$modelo = new Modelo();
 	if (isset($_POST['validar_campos']) && $_POST['validar_campos']=="si_por_campo") {
-
- 
 		$array_seleccionar = array();
 		$array_seleccionar['table']="tb_preñez";
 		$array_seleccionar['campo']="int_id_preñez";
@@ -16,17 +14,14 @@
 			print json_encode(array("Error",$resultado,$array_seleccionar));
 			exit();
 		}
-
-
-
 	}else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos']=="si_actualizalo") {
 		$array_update = array(
             "table" => "tb_preñez",
             "int_id_preñez" => $_POST['llave_persona'],
-            "int_bovino_fk"=>$_POST['int_bovino_fk'],
-            "dat_fecha_monta" => $modelo->formatear_fecha($_POST['dat_fecha_monta']), 
-            "dat_fecha_celo" => $modelo->formatear_fecha($_POST['dat_fecha_celo']), 
-            "dat_fecha_parto" => $modelo->formatear_fecha($_POST['dat_fecha_parto']), 
+            "int_bovino_fk"=>$_POST['int_bovino_edit'],
+            "dat_fecha_monta" => $modelo->formatear_fecha($_POST['dat_fecha_monta_edit']), 
+            "dat_fecha_celo" => $modelo->formatear_fecha($_POST['dat_fecha_celo_edit']), 
+            "dat_fecha_parto" => $modelo->formatear_fecha($_POST['dat_fecha_parto_edit']), 
            
         );
 		$resultado = $modelo->actualizar_generica($array_update);
@@ -43,8 +38,6 @@
 
 	}else if (isset($_POST['consultar_info']) && $_POST['consultar_info']=="si_condui_especifico") {
 
-
-		
 		$resultado = $modelo->get_todos("tb_preñez","WHERE int_id_preñez = '".$_POST['int_id_preñez']."'");
 		if($resultado[0]=='1'){
         	print json_encode(array("Exito",$_POST,$resultado[2][0]));
@@ -116,7 +109,7 @@
 			         $status="Ya pario";
 			        
 			      //si encontramos un empleado con un usuario creado, notificamos antes de guardar
-			    } else if ($dias <= 240) {
+			    } else if ($dias <= 270) {
 			        $status= "Está a " . $dias . " días de parir";
 			        
 			   	}else if ($dias <= 1) {
@@ -156,7 +149,7 @@
                     	</table>';
 
 
-        	print json_encode(array("Exito",$html,$_POST,$result,$dias));
+        	print json_encode(array("Exito",$html,$_POST,$result,$status));
 
         
 			exit();

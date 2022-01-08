@@ -4,9 +4,10 @@ $modelo = new Modelo();
 //consulta para obtener la fecha
 if (isset($_POST['consultar_info']) && $_POST['consultar_info']=="si_consultala") { 
         $htmltr = $html="";
+         $parida="";
     $cuantos = 0;
     $status="";
-    $sql = "SELECT dat_fecha_monta,dat_fecha_parto,dat_fecha_celo,
+    $sql = "SELECT dat_fecha_parto,
     int_id_preñez,nva_nom_bovino
         FROM
       tb_preñez
@@ -20,29 +21,29 @@ if (isset($_POST['consultar_info']) && $_POST['consultar_info']=="si_consultala"
         
 
           $fecha_actual = new DateTime(date('Y-m-d'));//nueva variable para vencimiento//
-
-      
-      
-      foreach ($result[2] as $row) {
-
+       foreach ($result[2] as $row) {
+       
         $fecha_final = new DateTime($row['dat_fecha_parto']);
           $dias = $fecha_actual->diff($fecha_final)->format('%r%a');
               // Si la fecha final es igual a la fecha actual o anterior
           if ($dias <= 0) {
-               $status="  ya pario";
+               $status="ya pario";
+               $parida.='<button class="btn btn-info btn-sm btn_ok " id="bntok"
+                                               data-int_id_preñez='.$row['int_id_preñez'].' >
+                                                 <i class="fas fa-check">ok</i>
+                                         </button >';
               
             //si encontramos un empleado con un usuario creado, notificamos antes de guardar
-          } else if ($dias <= 240) {
-              $status= "  está a " . $dias . " días de parir";
+          } else if ($dias <=270) {
+              $status= "está a " . $dias . " días de parir";
               
           }else if ($dias <= 1) {
-              $status= "  mañana va a parir";                 
+              $status= "mañana va a parir";                 
           }
          $htmltr.='<div class="alert alert-info alert-dismissible" id="alert_preñez">
                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                       <h4><i class="icon fas fa-info"></i> Alerta!</h4>
-                      <td class="text-center">'.$row['nva_nom_bovino'].'</td>
-                           '.$status.'      
+                      '.$row['nva_nom_bovino'].' '.$status.' '.$parida.'     
                     </div>
                   
                    '; 
@@ -51,7 +52,7 @@ if (isset($_POST['consultar_info']) && $_POST['consultar_info']=="si_consultala"
      
 
 
-          print json_encode(array("Exito",$htmltr,$_POST,$result,$dias));
+          print json_encode(array("Exito",$htmltr,$_POST,$result,$status));
 
         
       exit();
