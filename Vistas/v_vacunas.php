@@ -114,7 +114,7 @@
                                                 <span class="input-group-text">
                                                     <i class="fas fa fa-expand-arrows-alt"></i>
                                                 </span>
-                                                <select class="form-control" name="id_exped_aplicado" id="id_exped_aplicado">
+                                                <select class="form-control" name="exped_aplicado" id="exped_aplicado">
                                                     <option value="Seleccione">Seleccione</option>
                                                     <?php
                                                     $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'activo' or nva_estado_bovino='preñada'  or nva_estado_bovino='parida'");
@@ -170,7 +170,7 @@
                                                 </span>
 
                                                 <input type="text" class="form-control
-                                                        disabled" placeholder="mm/dd/yyyy" required name="dat_fecha_aplicacion" id="dat_fecha_aplicacion" autocomplete="off">
+                                                        disabled" placeholder="mm/dd/yyyy" required name="fecha_aplicacion" id="fecha_aplicacion" autocomplete="off">
                                             </div>
                                         </div>
                                         <div class="form-group">

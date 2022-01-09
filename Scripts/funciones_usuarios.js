@@ -181,35 +181,70 @@ $(function (){
 	});
 
 
-	$(document).on("submit","#formulario_registro",function(e){
+	 $(document).on("submit","#formulario_registro",function(e){
 		e.preventDefault();
 		var datos = $("#formulario_registro").serialize();
-		console.log("Imprimiendo datos: ",datos);
-		mostrar_mensaje("Almacenando información","Por favor no recargue la página");
+		var Toast = Swal.mixin({
+	        toast: true,
+	        position: 'top-end',
+	        showConfirmButton: false,
+	        timer: 5000
+    	});
+    	if ($("#contrasena_usuario").val() != $("#recontrasena_usuario").val()) {
+
+ 			Toast.fire({
+		        icon: 'info',
+		        title: 'Las contraseñas no coinciden!'
+		    });
+			return;
+ 		}else if ($("#empleado_usuario").val() == "Seleccione"){
+ 			Toast.fire({
+		        icon: 'info',
+		        title: 'Debe Elegir un Empleado'
+		    });
+			return;
+ 		}
+		console.log("Imprimiendo datos: ",datos);		
 		$.ajax({
             dataType: "json",
             method: "POST",
-            url:'json_usuarios.php',
+            url:'../Controladores/usuarios_controlador.php',
             data : datos,
         }).done(function(json) {
-        	console.log("EL GUARDAR",json);
-        	$('#md_registrar_usuario').modal('hide');
-        	if (json[0]=="Exito") {
-        		if ($("#imagen_persona").val()!="") { 
-        			subir_archivo($("#imagen_persona"),json[1]);
-        		}
-        		cargar_datos();
-        	}else{
-        		cargar_datos();
-        	}
-        	
-        }).fail(function(){
-
-        }).always(function(){
-
+        	console.log("EL GUARDAR",json);        	
+	        if (json[0]=="Exito") {	    	 	
+					    	
+		    	$("#formulario_editar").trigger('reset');
+				$('#md_registrar_usuario').modal('hide');
+				if ($("#imagen_usuario").val() != "") {
+					subir_archivo($("#imagen_usuario"), json[1]);
+				}
+       			cargar_datos();
+       			Toast.fire({
+			        icon: 'success',
+			        title: 'Usuario registrado con exito!'
+		    	});	
+       			return;
+	    	}else if (json[1]=="existe usuario") {
+	    		Toast.fire({
+		            icon: 'error',
+		            title: 'Este nombre de usuario ya existe'
+		        });
+		        return;
+	    	}else if (json[1]=="existe empleado") {
+	    		Toast.fire({
+		            icon: 'error',
+		            title: 'Este empleado ya tiene un usuario registrado'
+		        });
+		        return;
+	    	}else if (json[1]=="consulta"){
+	    	 	Toast.fire({
+		            icon: 'error',
+		            title: 'Error en la consulta!'
+		        });
+		        return;
+	    	}
         });
-
-
 	});
 });
 

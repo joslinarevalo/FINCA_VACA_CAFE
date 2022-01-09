@@ -37,7 +37,7 @@
     <link rel="stylesheet" href="../plugins/bs-stepper/css/bs-stepper.min.css">
     <!-- dropzonejs -->
     <link rel="stylesheet" href="../plugins/dropzone/min/dropzone.min.css">
-    
+
     <link rel="stylesheet" href="../plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     <!-- Toastr -->
     <link rel="stylesheet" href="../plugins/toastr/toastr.min.css">
@@ -55,14 +55,14 @@
         ?>
 
         <!-- CCONTENIDO DE LA PÁGINA -->
-            <div class="content-wrapper">
-                  <section class="content">
-                       <div class="card">
+        <div class="content-wrapper">
+            <section class="content">
+                <div class="card">
                     <div class="card-header bg-success">
 
                         <h2 class=" card-title">Registro de Expediente</h2>
                         <div class="card-tools">
-                            <a class="btn btn-success " href="#md_registrar_expediente" data-toggle="modal">
+                            <a class="btn btn-success btn_abrir_modal" href="#" data-toggle="modal">
                                 <i class="fas fa-plus-circle"></i>
                                 Nuevo Expediente
                             </a>
@@ -81,189 +81,190 @@
                         </div>
                     </div>
                 </div>
-                  </section>
-                  <div class="modal fade" id="md_registrar_expediente">
-                        <form name="formulario_registro" id="formulario_registro">
-                            <div class="modal-dialog modal-xl" role="document">
-                                <div class="modal-content">
-                                    <div class="modal-header bg-success">
-                                        <h5 class="modal-title " id="exampleModalLabel">Registro nuevo expediente</h5>
-                                        <div class="float-right">
-                                        <button type="submit" id="boton_enviar" class="btn btn-success ">Guardar</button>
-                                        <button type="button" class="btn btn-success  btn_cerrar_class ">X</button>
-                                        </div>
-                                    </div>
-                                    <div class="modal-body">
-                                    <input type="hidden" id="ingreso_datos" name="ingreso_datos" value="si_registro">
-                                    <input type="hidden" id="llave_expediente" name="llave_expediente" value="si_registro">
-                                    <div class="row">
-                                              <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Nombre</label>
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="fas fa fa-square"></i>
-                                                        </span>
-
-                                                        <input type="text" autocomplete="off" name="nom_bovino" id="nom_bovino" class="form-control" required />
-                                                    </div>
-
-                                                </div>
-                                                </div>
-                                                    <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Tipo de Bovino</label>
-                                                    <div class="input-group mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="fas fa fa-square"></i>
-                                                        </span>
-                                                        <select class="form-control" name="tipo_bovino" id="tipo_bovino" required onclick="validar_campito()">
-                                                            <option value="Seleccione">Seleccione</option>
-                                                            <option value="novia">Novía</option>
-                                                            <option value="ternero">ternero</option>
-                                                            <option value="vaca_lechera">Vaca Lechera</option>
-                                                        </select>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <?php
-                                            $usuario = 'root';
-                                            $password = '';
-                                            $db = new PDO('mysql:host=localhost;dbname=db_finca', $usuario, $password);
-                                            ?>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Raza</label>
-                                                    <div class="input-group
-                                                                        mb-3">
-                                                        <span class="input-group-text">
-                                                            <i class="fas fa fa-expand-arrows-alt"></i>
-                                                        </span>
-                                                        <select class="form-control" name="raza_bovino_select" id="raza_bovino_select" required>
-                                                            <option value="Seleccione">Seleccione</option>
-                                                            <?php
-                                                            $query = $db->prepare("SELECT int_idraza ,nva_nom_raza FROM tb_raza");
-                                                            $query->execute();
-                                                            $data = $query->fetchAll();
-
-                                                            foreach ($data as $valores) :
-                                                                echo '<option value="' . $valores["int_idraza"] . '">' . $valores["nva_nom_raza"] . '</option>';
-                                                            endforeach;
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                             <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Cantidad de Partos</label>
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text">
-                                                                <i class="fas fa-book"></i>
-                                                            </span>
-                                                        </div>
-                                                        <input type="number" class="form-control" placeholder="1" required name="cant_parto_bovino" id="cant_parto_bovino" disabled>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                <label for="fecha_ul_parto">Último Parto</label>
-                                                 <div class="input-group mb-3">
-                                                 <div class="input-group-prepend">
-                                                <span class="input-group-text">
-                                               <i class="fas fa-calendar"></i>
-                                                </span>
-                                                </div>
-                                                <input type="text" class="form-control disabled" placeholder="mm/dd/yyyy" required name="fecha_ult_parto" id="fecha_ult_parto" autocomplete="off" disabled>
-                                                </div>
-                                                </div>
-                                             </div>
-                                            <div class="col-md-4">
-                                                <label>Sexo</label>
-                                                <div class="form-group">
-
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" value="masculino" id="radioPrimary1" name="sexo_bovino" checked>
-                                                        <label for="radioPrimary1"> Masculino</label>
-                                                    </div>
-                                                    <div class="icheck-primary d-inline">
-                                                        <input type="radio" value="femenino" id="radioPrimary2" name="sexo_bovino">
-                                                        <label for="radioPrimary2"> Femenino</label>
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <label>Descripción</label>
-                                                    <div class="input-group mb-3">
-                                                        <div class="input-group-prepend">
-                                                            <span class="input-group-text">
-                                                                <i class="fas fa fa-comments"></i>
-                                                            </span>
-                                                        </div>
-                                                        <textarea name="descrip_expediente" autocomplete="off" id="descrip_expediente" class="form-control" required rows="" cols=""></textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                     <label>Propietario</label>
-                                                        <div class="input-group mb-3">
-                                                            <span class="input-group-text">
-                                                                <i class="fas fa fa-square"></i>
-                                                            </span>
-                                                            <select class="form-control" name="propietario" id="propietario">
-                                                                <option value="Seleccione">Seleccione</option>
-                                                                <?php $query = $db->prepare("SELECT * FROM tb_propietario");
-                                                                $query->execute();
-                                                                $data = $query->fetchAll();
-
-                                                                foreach ($data as $valores) :
-                                                                    echo '<option value="' . $valores["int_id_propietario"] . '">' . $valores["nva_nombres_propietario"] . ' ' . $valores["nva_apellidos_propietario"] . '</option>';
-                                                                endforeach;
-                                                                ?>
-                                                            </select>
-                                                        </div>
-                                                </div>
-                                            </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Imagen Bovino</label>
-                                                <div class="image view view-first">
-                                                    <img class="thumb-image" style="width: 20%; display: block;" src="">
-                                                </div>
-                                                <input id="imagen_bovino" name="imagen_bovino" data-buttonText="Seleccionar" type="file" class="filestyle" data-buttonname="btn-secondary">
-                                                <label style="display:none;font-size: 12px; list-style: none; color: #ea553d; margin-top: 5px;" id="error_en_la_imagen">La imagen no es valida</label>
-
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label>Carta De Venta</label>
-                                                <div class="image view view-first">
-                                                    <img class="thumb-image" style="width: 20%; display: block;" src="">
-                                                </div>
-                                                <input id="imagen_expediente" name="imagen_expediente" data-buttonText="Seleccionar" type="file" class="filestyle" data-buttonname="btn-secondary">
-                                                <label style="display:none;font-size: 10px; list-style: none; color: #ea553d; margin-top: 5px;" id="error_en_la_imagen">La imagen no es valida</label>
-
-                                            </div>
-                                        </div>
-
-
-                                               </div>
-
-                                            </div>   
-
+            </section>
+            <div class="modal fade" id="md_registrar_expediente">
+                <form name="formulario_registro" id="formulario_registro">
+                    <div class="modal-dialog modal-xl" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-success">
+                                <h5 class="modal-title " id="exampleModalLabel">Registro nuevo expediente</h5>
+                                <div class="float-right">
+                                    <button type="submit" id="boton_enviar" class="btn btn-success ">Guardar</button>
+                                    <button type="button" class="btn btn-success  btn_cerrar_class ">X</button>
                                 </div>
                             </div>
-                        </form>
-                  </div>            
-         
-             </div>
+                            <div class="modal-body">
+                                <input type="hidden" id="ingreso_datos" name="ingreso_datos" value="si_registro">
+                                <input type="hidden" id="llave_expediente" name="llave_expediente" value="si_registro">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Nombre</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa fa-square"></i>
+                                                </span>
+
+                                                <input type="text" autocomplete="off" name="nom_bovino" id="nom_bovino" class="form-control" required />
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Tipo de Bovino</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa fa-square"></i>
+                                                </span>
+                                                <select class="form-control" name="tipo_bovino" id="tipo_bovino" required onclick="validar_campito()">
+                                                    <option value="Seleccione">Seleccione</option>
+                                                    <option value="novia">Novía</option>
+                                                    <option value="ternero">ternero</option>
+                                                    <option value="vaca_lechera">Vaca Lechera</option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <?php
+                                    $usuario = 'root';
+                                    $password = '';
+                                    $db = new PDO('mysql:host=localhost;dbname=db_finca', $usuario, $password);
+                                    ?>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Raza</label>
+                                            <div class="input-group
+                                                                        mb-3">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa fa-expand-arrows-alt"></i>
+                                                </span>
+                                                <select class="form-control" name="raza_bovino_select" id="raza_bovino_select" required>
+                                                    <option value="Seleccione">Seleccione</option>
+                                                    <?php
+                                                    $query = $db->prepare("SELECT int_idraza ,nva_nom_raza FROM tb_raza");
+                                                    $query->execute();
+                                                    $data = $query->fetchAll();
+
+                                                    foreach ($data as $valores) :
+                                                        echo '<option value="' . $valores["int_idraza"] . '">' . $valores["nva_nom_raza"] . '</option>';
+                                                    endforeach;
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Cantidad de Partos</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-book"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="number" class="form-control" placeholder="1" required name="cant_parto_bovino" id="cant_parto_bovino" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label for="fecha_ul_parto">Último Parto</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-calendar"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control disabled" placeholder="mm/dd/yyyy" required name="fecha_ult_parto" id="fecha_ult_parto" autocomplete="off" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label>Sexo</label>
+                                        <div class="form-group">
+
+                                            <div class="icheck-primary d-inline">
+                                                <input type="radio" value="masculino" id="radioPrimary1" name="sexo_bovino">
+                                                <label for="radioPrimary1"> Masculino</label>
+                                            </div>
+                                            <div class="icheck-primary d-inline">
+                                                <input type="radio" value="femenino" id="radioPrimary2" name="sexo_bovino">
+                                                <label for="radioPrimary2"> Femenino</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Descripción</label>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa fa-comments"></i>
+                                                    </span>
+                                                </div>
+                                                <textarea name="descrip_expediente" autocomplete="off" id="descrip_expediente" class="form-control" required rows="" cols=""></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Propietario</label>
+                                            <div class="input-group mb-3">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa fa-square"></i>
+                                                </span>
+                                                <select class="form-control" name="propietario" id="propietario">
+                                                    <option value="Seleccione">Seleccione</option>
+                                                    <?php $query = $db->prepare("SELECT * FROM tb_propietario");
+                                                    $query->execute();
+                                                    $data = $query->fetchAll();
+
+                                                    foreach ($data as $valores) :
+                                                        echo '<option value="' . $valores["int_id_propietario"] . '">' . $valores["nva_nombres_propietario"] . ' ' . $valores["nva_apellidos_propietario"] . '</option>';
+                                                    endforeach;
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                  
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Imagen Bovino</label>
+                                            <div class="image view view-first text-center" >
+                                                <img class="thumb-image" id="img_bovino" width="100" height="100"  style=" margin-left:auto; margin-right:auto; display: block;" src="">
+                                            </div>
+                                            <input id="imagen_bovino" name="imagen_bovino" data-buttonText="Seleccionar" type="file" class="filestyle" data-buttonname="btn-secondary">
+                                            <label style="display:none;font-size: 12px; list-style: none; color: #ea553d; margin-top: 5px;" id="error_en_la_imagen">La imagen no es valida</label>
+
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Carta De Venta</label>
+                                            <div class="image view view-first">
+                                                <img class="thumb-image" id="img_carta_venta" width="100" height="100" style=" margin-left:auto; margin-right:auto; display: block;" src="">
+                                            </div>
+                                            <input id="imagen_expediente" name="imagen_expediente" data-buttonText="Seleccionar" type="file" class="filestyle" data-buttonname="btn-secondary">
+                                            <label style="display:none;font-size: 10px; list-style: none; color: #ea553d; margin-top: 5px;" id="error_en_la_imagen">La imagen no es valida</label>
+
+                                        </div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
 
         <footer class="main-footer">
             <div class="float-right d-none d-sm-block">
@@ -301,7 +302,7 @@
     <script src="../plugins/dropzone/min/dropzone.min.js"></script>
     <script src="../plugins/sweetalert2/sweetalert2.min.js"></script>
     <!-- Toastr -->
-    
+
     <script src="../plugins/toastr/toastr.min.js"></script>
     <!-- AdminLTE App -->
     <script src="../dist/js/adminlte.min.js"></script>

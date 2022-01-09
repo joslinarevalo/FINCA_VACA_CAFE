@@ -1,22 +1,22 @@
-
+let modificar = false
 //$home="http://localhost/DISEÑO-G07_Json/";
 
-function validar_campito(){
+function validar_campito() {
 
-$(document).on("change","#tipo_bovino",function(e){
+	$(document).on("change", "#tipo_bovino", function (e) {
 		e.preventDefault();
 
-		if ($("#tipo_bovino").val() == "vaca_lechera"){
- 				$("#cant_parto_bovino").prop("disabled", false);
- 				$("#fecha_ult_parto").prop("disabled", false);
+		if ($("#tipo_bovino").val() == "vaca_lechera") {
+			$("#cant_parto_bovino").prop("disabled", false);
+			$("#fecha_ult_parto").prop("disabled", false);
 
- 		}else{
- 				$("#cant_parto_bovino").prop("disabled", true);
- 				$("#fecha_ult_parto").prop("disabled", true);
- 		}
+		} else {
+			$("#cant_parto_bovino").prop("disabled", true);
+			$("#fecha_ult_parto").prop("disabled", true);
+		}
 	});
 }
-			
+
 $(function () {
 
 
@@ -110,164 +110,216 @@ $(function () {
 		validar_archivo($(this));
 
 	});
+	//NUEVO CODIGO
+	$(document).on("click", ".btn_abrir_modal", function (e) {
+		e.preventDefault();
+		document.getElementById('exampleModalLabel').innerText = 'Registro nuevo expediente'
+		document.getElementById('boton_enviar').innerText = 'Guardar'
+		document.getElementById('img_bovino').src = ''
+		document.getElementById('img_bovino').width = ''
+		document.getElementById('img_bovino').height = ''
+		document.getElementById('img_carta_venta').src = ''
+		document.getElementById('img_carta_venta').width = ''
+		document.getElementById('img_carta_venta').height = ''
+		document.getElementById('ingreso_datos').value = 'si_registro'
+		modificar = false
+		$('#md_registrar_expediente').modal('show');
 
-	$(document).on("click",".btn_editar",function(e){
-     e.preventDefault(); 
-	//	mostrar_mensaje("Consultando datos");
+	})
+
+	$(document).on("click", ".btn_editar", function (e) {
+		e.preventDefault();
+		//	mostrar_mensaje("Consultando datos");
+		document.getElementById('exampleModalLabel').innerText = 'Editar expediente'
+		document.getElementById('boton_enviar').innerText = 'Modificar'
+
 		var id = $(this).attr("data-int_idexpediente");
-		console.log("El id es: ",id);
-		var datos = {"consultar_info":"si_expediente_especifico","idexpediente":id}
+		console.log("El id es: ", id);
+		var datos = { "consultar_info": "si_expediente_especifico", "idexpediente": id }
 		$.ajax({
-	        dataType: "json",
-	        method: "POST",
-	         url:'../Controladores/Json_expediente.php',
-	        data : datos,
-	    }).done(function(json) {
-	    	console.log("EL consultar especifico",json);
-	    	if (json[0]=="Exito") {
+			dataType: "json",
+			method: "POST",
+			url: '../Controladores/Json_expediente.php',
+			data: datos,
+		}).done(function (json) {
+			console.log("EL consultar especifico", json);
+			if (json[0] == "Exito") {
+				console.log(json[2])
+				console.log("nombre: ", json[2]['nva_nom_bovino']);
+				console.log("sexo: ", json[2]['nva_sexo_bovino']);
+				console.log("partos: ", json[2]['int_cant_parto']);
+				console.log("descrip: ", json[2]['txt_descrip_expediente']);
+				console.log("propietario: ", json[2]['int_id_propietario']);
+				console.log("raza: ", json[2]['int_idraza']);
+				console.log("tipo bovino: ", json[2]['nva_tipo_bovino']);
+				var fecHA_string = json[2]['dat_fecha_ult_parto'];
+				var porciones = fecHA_string.split('-');
+	    		var fecha = porciones[2]+"/"+porciones[1]+"/"+porciones[0]
+				$('#llave_expediente').val(id);
+				$('#ingreso_datos').val("si_actualizalo");
+				// $('#fecha_ult_parto').val(fecha);
+				$('#nom_bovino').val(json[2]['nva_nom_bovino']);
+				$('#sexo_bovino').val(json[2]['nva_sexo_bovino']);
+				$('#cant_parto_bovino').val(json[2]['int_cant_parto']);
+				$('#descrip_expediente').val(json[2]['txt_descrip_expediente']);
+				$('#propietario').val(json[2]['int_id_propietario']);
+				$('#raza_bovino_select').val(json[2]['int_idraza']);
+				$('#tipo_bovino').val(json[2]['nva_tipo_bovino']);
+				$('#fecha_ult_parto').val(fecha);
+				if (json[2]['nva_tipo_bovino'] == "vaca_lechera") {
+					$("#cant_parto_bovino").prop("disabled", false);
+					$("#fecha_ult_parto").prop("disabled", false);
 
-	    		console.log("nombre: ",json[2]['nva_nom_bovino']);
-	    		console.log("sexo: ",json[2]['nva_sexo_bovino']);
-	    		console.log("partos: ",json[2]['int_cant_parto']);
-	    		console.log("descrip: ",json[2]['txt_descrip_expediente']);
-	    		console.log("propietario: ",json[2]['int_id_propietario']);
-	    		console.log("raza: ",json[2]['int_idraza']);
-	    		console.log("tipo bovino: ",json[2]['nva_tipo_bovino']);
-	    		//var fecHA_string = json[2]['fecha_ult_parto'];
-			//	var porciones = fecHA_string.split('-');
-				//var fecha = porciones[2]+"/"+porciones[1]+"/"+porciones[0]
-	    		$('#llave_expediente').val(id);
-	    		$('#ingreso_datos').val("si_actualizalo");
-	    	   // $('#fecha_ult_parto').val(fecha);
-	    		$('#nom_bovino').val(json[2]['nva_nom_bovino']);
-	    		$('#sexo_bovino').val(json[2]['nva_sexo_bovino']);
-	    		$('#cant_parto_bovino').val(json[2]['int_cant_parto']);
-	    		$('#descrip_expediente').val(json[2]['txt_descrip_expediente']);
-	    		$('#propietario').val(json[2]['int_id_propietario']);
-	    		$('#raza_bovino_select').val(json[2]['int_idraza']);
-	    		$('#tipo_bovino').val(json[2]['nva_tipo_bovino']);
+				} else {
+					$("#cant_parto_bovino").prop("disabled", true);
+					$("#fecha_ult_parto").prop("disabled", true);
+				}
+				document.getElementById('img_bovino').src = json[2]['nva_foto_bovino']
+				document.getElementById('img_carta_venta').src = json[2]['nva_carta_venta']
+				document.getElementById('img_bovino').width = 100
+				document.getElementById('img_bovino').height = 100
+				document.getElementById('img_carta_venta').width = 100
+				document.getElementById('img_carta_venta').height = 100
+				document.getElementById('ingreso_datos').value = 'si_actualizalo'
+				modificar = true
+				$('#md_registrar_expediente').modal('show');
+			}
 
-	    		$('#md_registrar_expediente').modal('show');
-	    	}
-	    	 
-	    }).fail(function(){
+		}).fail(function () {
 
-	    }).always(function(){
-	    	Swal.close();
-	    });
+		}).always(function () {
+			Swal.close();
+		});
 
 	});
 
-	
+
 	$('#formulario_registro').validate({
-	    rules: {	     
-	    },
-	    errorElement: 'span',
-	    errorPlacement: function (error, element) {
-	      error.addClass('invalid-feedback');
-	      element.closest('.input-group').append(error);
-	    },
-	    highlight: function (element, errorClass, validClass) {
-	      $(element).addClass('is-invalid');
-	    },
-	    unhighlight: function (element, errorClass, validClass) {
-	      $(element).removeClass('is-invalid');
-	    }
+		rules: {
+		},
+		errorElement: 'span',
+		errorPlacement: function (error, element) {
+			error.addClass('invalid-feedback');
+			element.closest('.input-group').append(error);
+		},
+		highlight: function (element, errorClass, validClass) {
+			$(element).addClass('is-invalid');
+		},
+		unhighlight: function (element, errorClass, validClass) {
+			$(element).removeClass('is-invalid');
+		}
 	});
-	
+
 	$(document).on("submit", "#formulario_registro", function (e) {
 		e.preventDefault();
 		var datos = $("#formulario_registro").serialize();
 		var Toast = Swal.mixin({
-	        toast: true,
-	        position: 'top-end',
-	        showConfirmButton: false,
-	        timer: 1500
-    	});
+			toast: true,
+			position: 'top-end',
+			showConfirmButton: false,
+			timer: 1500
+		});
+		if ($("#tipo_bovino").val() == "Seleccione") {
+			Toast.fire({
+				icon: 'info',
+				title: 'Debe elegir el tipo de bovino'
+			});
+			return;
+		}
+		if ($("#raza_bovino_select").val() == "Seleccione") {
+			Toast.fire({
+				icon: 'info',
+				title: 'Debe elegir la raza'
+			});
+			return;
+		}
 
+		if ($("#propietario").val() == "Seleccione") {
+			Toast.fire({
+				icon: 'info',
+				title: 'Debe elegir el propietario'
+			});
+			return;
+		}
+		//SI ES MODIFICACION NO SE PIDEN LAS IMAGENES
+		//YA QUE AL CREAR EL EXPEDIENTE SE AGREGARON 
+		if (!modificar) {
+			if ($("#imagen_expediente").val() == "") {
+				Toast.fire({
+					icon: 'info',
+					title: 'Debe elegir la imagen del la carta de venta'
+				});
+				return;
+			}
+			if ($("#imagen_bovino").val() == "") {
+				Toast.fire({
+					icon: 'info',
+					title: 'Debe elegir la imagen del bovino'
+				});
+				return;
+			}
+		}
 		console.log("Imprimiendo datos: ", datos);
-		if ($("#tipo_bovino").val() == "Seleccione"){
- 			Toast.fire({
-		        icon: 'info',
-		        title: 'Debe elegir el tipo de bovino'
-		    });
-			return;
- 		}
- 		if ($("#raza_bovino_select").val() == "Seleccione"){
- 			Toast.fire({
-		        icon: 'info',
-		        title: 'Debe elegir la raza'
-		    });
-			return;
- 		}
- 		if ($("#propietario").val() == "Seleccione"){
- 			Toast.fire({
-		        icon: 'info',
-		        title: 'Debe elegir el propietario'
-		    });
-			return;
- 		}if ($("#imagen_expediente").val() == ""){
- 			Toast.fire({
-		        icon: 'info',
-		        title: 'Debe elegir la imagen del la carta de venta'
-		    });
-			return;
- 		}if ($("#imagen_bovino").val() == ""){
- 			Toast.fire({
-		        icon: 'info',
-		        title: 'Debe elegir la imagen del bovino'
-		    });
-			return;
- 		}
- 	
- 	
+
 		$.ajax({
 			type: "POST",
 			dataType: "json",
 			url: '../Controladores/Json_expediente.php',
 			data: datos,
 		}).done(function (json) {
-			console.log("EL GUARDAR", json);
+			console.log("EL GUARDAR", json + ' eeeeee' + json[0]);
 			if (json[0] == "Exito") {
-				
-			  	$('#md_registrar_expediente').modal('hide');
-		
-				
-				if ($("#imagen_expediente").val() != "" && $("#imagen_bovino").val() != "" ) {
+
+				$('#md_registrar_expediente').modal('hide');
+
+
+				if ($("#imagen_expediente").val() != "" && $("#imagen_bovino").val() != "") {
 
 					subir_archivo($("#imagen_expediente"), json[1], "subir_imagen_ajax");
 					subir_archivo($("#imagen_bovino"), json[1], "subir_imagen_bovino");
 
-				}else if($("#imagen_bovino").val() != "" && $("#imagen_expediente").val() == ""){
-				subir_archivo($("#imagen_bovino"), json[1], "subir_imagen_bovino");
-				} else if($("#imagen_bovino").val() == "" && $("#imagen_expediente").val() != ""){
+				} else if ($("#imagen_bovino").val() != "" && $("#imagen_expediente").val() == "") {
+					subir_archivo($("#imagen_bovino"), json[1], "subir_imagen_bovino");
+				} else if ($("#imagen_bovino").val() == "" && $("#imagen_expediente").val() != "") {
 					subir_archivo($("#imagen_expediente"), json[1], "subir_imagen_ajax");
 
-				
-				}else{
+
+				} else {
+					if (!modificar) {
 						mostrar_mensaje("Error", "algo paso");
+
+					}
 				}
 				$('#md_registrar_expediente').trigger('reset');
-				    
-				Toast.fire({
-	            	icon: 'success',
-	            	title: 'Expediente Registrado!.'
-       			});
-
-       			
 				cargar_datos();
+
+				document.getElementById('formulario_registro').reset()
+				setTimeout(function (s) {
+					if (modificar) {
+						Toast.fire({
+							icon: 'success',
+							title: 'Expediente Modificado!.'
+						})
+					} else {
+						Toast.fire({
+							icon: 'success',
+							title: 'Expediente Registrado!.'
+						})
+					}
+				}, 500)
+
 				return;
-			} else if (json[1] == "existe bovino"){
-	 			Toast.fire({
-			        icon: 'info',
-			        title: 'Bovino ya existe'
-			    });
-				return;
- 			}else {
+			} else if (json[1] == "existe bovino") {
 				Toast.fire({
-	            	icon: 'error',
-	            	title: 'No se pudo registrar!.'
-       			});
+					icon: 'info',
+					title: 'Bovino ya existe'
+				});
+				return;
+			} else {
+				Toast.fire({
+					icon: 'error',
+					title: 'No se pudo registrar!.'
+				});
 				cargar_datos();
 			}
 
@@ -394,6 +446,7 @@ $(document).on("click", ".btn_cerrar_class", function (e) {
 function cargar_datos() {
 	mostrar_mensaje("Consultando datos");
 	var datos = { "consultar_info": "si_consultala" }
+
 	$.ajax({
 		dataType: "json",
 		method: "POST",
@@ -404,12 +457,13 @@ function cargar_datos() {
 		$("#datos_tabla").empty().html(json[1]);
 		$('#tabla_expediente').DataTable();
 		$('#md_registrar_expediente').modal('hide');
-		
+
 	}).fail(function () {
 
 	}).always(function () {
 		Swal.close();
 	});
+
 }
 
 function mostrar_mensaje(titulo, mensaje = "") {

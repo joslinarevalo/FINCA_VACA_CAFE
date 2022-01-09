@@ -6,8 +6,8 @@
 		$array_update = array(
             "table" => "tb_control_vacunas",
             "int_id_control_vac" => $_POST['llave_vacuna'],
-            "id_exped_aplicado"=>$_POST['id_exped_aplicado'],
-            "dat_fecha_aplicacion" => $modelo->formatear_fecha($_POST['dat_fecha_aplicacion']),
+            "id_exped_aplicado"=>$_POST['exped_aplicado'],
+            "dat_fecha_aplicacion" => $modelo->formatear_fecha($_POST['fecha_aplicacion']),
             "nva_vacuna_aplicada" => $_POST['vacuna'],
             "nva_dosis" => $_POST['dosis']
         	
@@ -39,28 +39,87 @@
 
 
 }else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos']=="si_registro") {
-	
-		$id_insertar = $modelo->retonrar_id_insertar("tb_control_vacunas"); 
-        $array_insertar = array(
-            "table" => "tb_control_vacunas",
-            "int_id_control_vac"=>$id_insertar,
-            "id_exped_aplicado"=>$_POST['id_exped_aplicado'],
-            "nva_vacuna_aplicada" => $_POST['vacuna'],
-            "dat_fecha_aplicacion" => $modelo->formatear_fecha($_POST['dat_fecha_aplicacion']), 
-            "nva_dosis" => $_POST['dosis']
+			$encontro = "";
+		//consulta para obtener el nombre de medicamento y la fecha de aplicacion la bd
+		$sql = "SELECT
+		        id_exped_aplicado,
+				dat_fecha_aplicacion,
+				nva_vacuna_aplicada	
+				FROM
+				tb_control_vacunas;";
 
-        );
-        $result = $modelo->insertar_generica($array_insertar);
-        if($result[0]=='1' && $result[4]>0){
+		$result_nombre = $modelo->get_query($sql);
 
-        	print json_encode(array("Exito",$_POST,$result));
-			exit();
+		//verifivamos si obtuvimos usuarios o no
+		if($result_nombre[0]=='1'){
 
-        }else {
-        	print json_encode(array("Error",$_POST,$result));
-			exit();
-        }
-    
+			foreach ($result_nombre[2] as $row) {
+				
+			 if ($row['nva_vacuna_aplicada'] == $_POST['vacuna']) {
+					$encontro = "medicamento encontrado";
+					break;
+				}else if ($row['id_exped_aplicado'] == $_POST['exped_aplicado']) {
+					$encontro = "Bovino encontrado";
+					break;
+				}
+			}
+			//si encontramos un nombre identico, notificamos antes de guardar
+			if ($encontro == "fecha econtrada") {
+				print json_encode(array("Error","existe la fecha",$result_nombre));
+				exit();
+			//si encontramos un empleado con un usuario creado, notificamos antes de guardar
+			}else if ($encontro == "Bovino encontrado") {
+				print json_encode(array("Error","Bovino vacunado",$result_nombre));
+				exit();
+
+			//sino, guardamos todos los datos
+			}else if ($encontro == "medicamento encontrado") {
+				print json_encode(array("Error","Medicamento aplicado",$result_nombre));
+				exit();
+
+			//sino, guardamos todos los datos
+			}else{
+				$id_insertar = $modelo->retonrar_id_insertar("tb_control_vacunas"); 
+       			$array_insertar = array(
+			    "table" => "tb_control_vacunas",
+			    "int_id_control_vac"=>$id_insertar,
+			    "id_exped_aplicado"=>$_POST['exped_aplicado'],
+			    "nva_vacuna_aplicada" => $_POST['vacuna'],
+			    "dat_fecha_aplicacion" => $modelo->formatear_fecha($_POST['fecha_aplicacion']), 
+			    "nva_dosis" => $_POST['dosis']);
+                $result = $modelo->insertar_generica($array_insertar);
+                if($result[0]=='1' && $result[4]>0){
+
+        	    print json_encode(array("Exito",$_POST,$result));
+			    exit();
+
+                }else {
+        	    print json_encode(array("Error",$_POST,$result));
+			    exit();
+                }
+			}   
+		}else{
+			$id_insertar = $modelo->retonrar_id_insertar("tb_control_vacunas"); 
+       			$array_insertar = array(
+			    "table" => "tb_control_vacunas",
+			    "int_id_control_vac"=>$id_insertar,
+			    "id_exped_aplicado"=>$_POST['exped_aplicado'],
+			    "nva_vacuna_aplicada" => $_POST['vacuna'],
+			    "dat_fecha_aplicacion" => $modelo->formatear_fecha($_POST['fecha_aplicacion']), 
+			    "nva_dosis" => $_POST['dosis']);
+                $result = $modelo->insertar_generica($array_insertar);
+                if($result[0]=='1' && $result[4]>0){
+
+        	    print json_encode(array("Exito",$_POST,$result));
+			    exit();
+
+                }else {
+        	    print json_encode(array("Error",$_POST,$result));
+			    exit();
+                }
+
+		}
+
 }else{
 		$htmltr = $html="";
 		$sql = "SELECT

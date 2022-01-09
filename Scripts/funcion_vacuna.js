@@ -1,3 +1,4 @@
+let modificar = false
 $(function (){
 	//$('#addvacuna').parsley();
 	
@@ -11,8 +12,8 @@ $(function (){
 	});
 	var fecha_hoy = new Date(); 
 	var fecha_mañana = new Date(); 
-	$('#dat_fecha_aplicacion').datepicker({
-	    format: "dd/mm/yyyy",
+	$('#fecha_aplicacion').datepicker({
+	   	format: "dd/mm/yyyy",
 	    todayBtn: true,
 	    clearBtn: false,
 	    language: "es",
@@ -42,8 +43,8 @@ $(function (){
 	    		var fecha = porciones[2]+"/"+porciones[1]+"/"+porciones[0]
 	    		$('#llave_vacuna').val(int_id_control_vac);
 	    		$('#ingreso_datos').val("si_actualizalo");
-	    		$('#id_exped_aplicado').val(json[2]['id_exped_aplicado']);
-	    		$('#dat_fecha_aplicacion').val(fecha);
+	    		$('#exped_aplicado').val(json[2]['id_exped_aplicado']);
+	    		$('#fecha_aplicacion').val(fecha);
 	    		$('#vacuna').val(json[2]['nva_vacuna_aplicada']);
 	    		$('#dosis').val(json[2]['nva_dosis']);
 	    	
@@ -106,14 +107,47 @@ $(function (){
             data : datos,
         }).done(function(json) {
         	console.log("EL GUARDAR",json);
-        	$('#modalAddvacuna').modal('hide');
-        	$("#addvacuna").trigger('reset');
-        	cargar_datos();
+        	if (json[0] == "Exito") {
+        		$('#modalAddvacuna').modal('hide');
         	
-        }).fail(function(){
+        		Toast.fire({
+	            	icon: 'success',
+	            	title: 'Medicamento Registrado!.'
+       			});
+        
+        	$("#modalAddvacuna").trigger('reset');
+				cargar_datos();
 
-        }).always(function(){
+				document.getElementById('addvacuna').reset()
+				setTimeout(function (s) {
+					if (modificar) {
+						Toast.fire({
+							icon: 'success',
+							title: 'Medicamento Modificado!.'
+						})
+					} else {
+						Toast.fire({
+							icon: 'success',
+							title: 'Medicamento Registrado!.'
+						})
+					}
+				}, 400)
 
+        	}else if (json[1]=="Medicamento aplicado" || json[1]=="Bovino vacunado") {
+	    		Toast.fire({
+		            icon: 'error',
+		            title: 'El bovino ya fue vacunado en esta fecha con este medicamento'
+		        });
+		        return;
+	    	}else if (json[1]=="consulta"){
+	    	 	Toast.fire({
+		            icon: 'error',
+		            title: 'Error en la consulta!'
+		        });
+		        return;
+	    	}
+        	
+        	
         });
 
 

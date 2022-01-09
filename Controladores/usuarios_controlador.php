@@ -129,7 +129,106 @@
         }
     
 		 
-	}else{		
+	}else if (isset($_POST['almacenar_datos']) && $_POST['almacenar_datos']=="datonuevo") {
+
+		$encontro = "";
+		//consulta para obtener el nombre y el id del empleado registrados en la bd
+		$sql = "SELECT
+					int_idempleado,
+					nva_nom_usuario 
+				FROM
+					tb_usuario;";
+
+		$result_nombre = $modelo->get_query($sql);
+
+		//verifivamos si obtuvimos usuarios o no
+		if($result_nombre[0]=='1'){
+
+			foreach ($result_nombre[2] as $row) {
+				
+				if ($row['nva_nom_usuario'] == $_POST['nombre_usuario']) {
+					$encontro = "nombre econtrado";
+					break;
+				}else if ($row['int_idempleado'] == $_POST['empleado_usuario']) {
+					$encontro = "empleado encontrado";
+					break;
+				}
+			}
+			//si encontramos un nombre identico, notificamos antes de guardar
+			if ($encontro == "nombre econtrado") {
+				print json_encode(array("Error","existe usuario",$result_nombre));
+				exit();
+			//si encontramos un empleado con un usuario creado, notificamos antes de guardar
+			}else if ($encontro == "empleado encontrado") {
+				print json_encode(array("Error","existe empleado",$result_nombre));
+				exit();
+
+			//sino, guardamos todos los datos
+			}else{
+
+				$id_insertar = $modelo->retonrar_id_insertar("tb_usuario");		
+		        $array_insertar = array(
+		            "table" => "tb_usuario",
+		            "int_idusuario"=>$id_insertar,
+		            "nva_nom_usuario" => $_POST['nombre_usuario'],
+		            "nva_contraseña_usuario" => $modelo->encriptarlas_contrasenas($_POST['contrasena_usuario']),
+		            "int_idempleado" => $_POST['empleado_usuario']            
+		        );
+		        $result = $modelo->insertar_generica($array_insertar);
+		        if($result[0]=='1'){
+
+		        	$array_update = array(
+		            "table" => "tb_empleado",
+		            "int_idempleado" => $_POST['empleado_usuario'],
+		            "nva_email_empleado"=>$_POST['correo_usuario']           
+		        );
+				$resultado_nuevoU = $modelo->actualizar_generica($array_update);
+		        	
+		        	print json_encode(array("Exito",$id_insertar,$_POST,$result,$resultado_nuevoU));
+					exit();
+
+		        }else {
+		        	print json_encode(array("Error",$_POST,$result,$resultado_nuevoU));
+					exit();
+		        }
+			}
+
+		}/*else if($result_nombre[1]=="error"){
+			
+			$id_insertar = $modelo->retonrar_id_insertar("tb_usuario");		
+		        $array_insertar = array(
+		            "table" => "tb_usuario",
+		            "int_idusuario"=>$id_insertar,
+		            "nva_nom_usuario" => $_POST['nombre_usuario'],
+		            "nva_contraseña_usuario" => $modelo->encriptarlas_contrasenas($_POST['contrasena_usuario']),
+		            "int_idempleado" => $_POST['empleado_usuario']            
+		        );
+		        $result = $modelo->insertar_generica($array_insertar);
+		        if($result[0]=='1'){
+		        	$array_update = array(
+		            "table" => "tb_empleado",
+		            "int_idempleado" => $_POST['empleado_usuario'],
+		            "nva_email_empleado"=>$_POST['correo_usuario']           
+		        );
+				$resultado_nuevoU = $modelo->actualizar_generica($array_update);
+		        	
+		        	print json_encode(array("Exito",$id_insertar,$_POST,$result,$resultado_nuevoU));
+					exit();
+		        }else {
+		        	print json_encode(array("Error",$_POST,$result,$resultado_nuevoU));
+					exit();
+		        }
+		}*/else{
+			print json_encode(array("Error","consulta",$result_nombre));
+				exit();
+		}
+
+
+		
+    
+		 
+	}
+	else{		
 
 		$htmltr = $html="";
 		$cuantos = 0;
