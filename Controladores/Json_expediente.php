@@ -256,7 +256,7 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 						nva_nom_raza, 
 						int_idexpediente, 
 						nva_nom_bovino, 
-						txt_descrip_expediente, 
+						nva_tipo_bovino, 
 						nva_foto_bovino,
 						nva_nombres_propietario
 					FROM
@@ -269,7 +269,7 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 						tb_raza
 						ON 
 							tb_expediente.int_idraza = tb_raza.int_idraza
-							WHERE nva_estado_bovino ='activo'";
+							WHERE nva_estado_bovino !='inactivo' ";
 	$result = $modelo->get_query($sql);
 	if ($result[0] == '1') {
 
@@ -277,7 +277,7 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 			$htmltr .= '<tr>
 		                            <td>' . $row['nva_nom_bovino'] . '</td>
 		                            <td><img alt="img" width="90" height="90" src="' . $row['nva_foto_bovino'] . '"></td>
-		                            <td>' . $row['txt_descrip_expediente'] . '</td>
+		                            <td>' . $row['nva_tipo_bovino'] . '</td>
 		                            <td>' . $row['nva_nombres_propietario'] . '</td>
 		                            <td>' . $row['nva_nom_raza'] . '</td>
 		                            <td>
@@ -299,7 +299,7 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 	                        <tr>
 	                            <th>Bovino</th>
 	                            <th>Imagen</th>
-	                            <th>Descripción</th>
+	                            <th>Tipo</th>
 	                            <th>Propietario</th>
 	                            <th>Raza</th>
 	                            <th>Acciones</th>

@@ -93,7 +93,7 @@
                             <input type="hidden" name="almacenar_datos" value="datonuevo">
                             <div class="modal-header bg-success">
                                 <h1 class="modal-title text-center ">Administración de Medicamento </h1>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <button type="button" class="btn bg-success btn_cerrar_class" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>

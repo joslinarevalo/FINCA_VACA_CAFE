@@ -42,11 +42,11 @@
 			$encontro = "";
 		//consulta para obtener el nombre de medicamento y la fecha de aplicacion la bd
 		$sql = "SELECT
-		        id_exped_aplicado,
-				dat_fecha_aplicacion,
-				nva_vacuna_aplicada	
-				FROM
-				tb_control_vacunas;";
+    id_exped_aplicado,
+    date_format(dat_fecha_aplicacion, '%d/%m/%Y') as dat_fecha_aplicacion,
+    nva_vacuna_aplicada 
+    FROM
+    tb_control_vacunas;";
 
 		$result_nombre = $modelo->get_query($sql);
 
@@ -55,25 +55,12 @@
 
 			foreach ($result_nombre[2] as $row) {
 				
-			 if ($row['nva_vacuna_aplicada'] == $_POST['vacuna']) {
+				if (($row['nva_vacuna_aplicada'] == $_POST['vacuna']) &&($row['dat_fecha_aplicacion'] == $_POST['fecha_aplicacion'])&&($row['id_exped_aplicado'] == $_POST['exped_aplicado'])){
 					$encontro = "medicamento encontrado";
-					break;
-				}else if ($row['id_exped_aplicado'] == $_POST['exped_aplicado']) {
-					$encontro = "Bovino encontrado";
 					break;
 				}
 			}
-			//si encontramos un nombre identico, notificamos antes de guardar
-			if ($encontro == "fecha econtrada") {
-				print json_encode(array("Error","existe la fecha",$result_nombre));
-				exit();
-			//si encontramos un empleado con un usuario creado, notificamos antes de guardar
-			}else if ($encontro == "Bovino encontrado") {
-				print json_encode(array("Error","Bovino vacunado",$result_nombre));
-				exit();
-
-			//sino, guardamos todos los datos
-			}else if ($encontro == "medicamento encontrado") {
+			 if ($encontro == "medicamento encontrado") {
 				print json_encode(array("Error","Medicamento aplicado",$result_nombre));
 				exit();
 

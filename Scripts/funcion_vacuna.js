@@ -110,13 +110,12 @@ $(function (){
         	if (json[0] == "Exito") {
         		$('#modalAddvacuna').modal('hide');
         	
-        		Toast.fire({
+        		/*Toast.fire({
 	            	icon: 'success',
 	            	title: 'Medicamento Registrado!.'
-       			});
+       			});*/
         
-        	$("#modalAddvacuna").trigger('reset');
-				cargar_datos();
+        
 
 				document.getElementById('addvacuna').reset()
 				setTimeout(function (s) {
@@ -131,12 +130,14 @@ $(function (){
 							title: 'Medicamento Registrado!.'
 						})
 					}
+				$("#modalAddvacuna").trigger('reset');
+				cargar_datos();
 				}, 400)
-
-        	}else if (json[1]=="Medicamento aplicado" || json[1]=="Bovino vacunado") {
+         
+        	}else if (json[1]=="Medicamento aplicado") {
 	    		Toast.fire({
 		            icon: 'error',
-		            title: 'El bovino ya fue vacunado en esta fecha con este medicamento'
+		            title: 'El bovino ya fue vacunado con este medicamento en esta fecha'
 		        });
 		        return;
 	    	}else if (json[1]=="consulta"){
@@ -147,7 +148,7 @@ $(function (){
 		        return;
 	    	}
         	
-        	
+       
         });
 
 
