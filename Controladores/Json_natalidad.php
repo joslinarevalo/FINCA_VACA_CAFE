@@ -75,7 +75,20 @@
 			exit();
         }
 
-    }else{
+    }else if (isset($_POST['consultar_parto']) && $_POST['consultar_parto'] == "fecha") {
+		$idExpediente = $_POST['idExpediente'];
+		$sql = "SELECT  date_format(dat_fecha_ult_parto, '%d/%m/%Y') as dat_fecha_ult_parto FROM tb_expediente
+		WHERE int_idexpediente = ".$idExpediente.";";
+		$fecha_ultimo_parto = $modelo->get_query($sql);
+		if($fecha_ultimo_parto[0]=='1'){
+			$fecha = $fecha_ultimo_parto[2][0]['dat_fecha_ult_parto'];
+			print json_encode(array("Exito",$fecha));
+			exit();
+		}else{
+			print json_encode(array("Error",$_POST,$result));
+			exit();
+		}
+	}else{
 		$htmltr = $html="";
 		$cuantos = 0;
 		$sql = "SELECT tbn.int_id_natalidad, tbn.dat_fecha_nacimiento, tbn.int_id_expe_madre, tbn.int_id_expe_ternero, 

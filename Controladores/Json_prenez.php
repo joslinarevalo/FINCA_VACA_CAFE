@@ -72,6 +72,7 @@ if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo
 	}
 } else if (isset($_POST['cambiar_estado']) && $_POST['cambiar_estado'] == "cambio_estado") {
 	$idPrenez = $_POST['idPrenez'];
+	$fechaHoy = date('Y-m-d');
 	$sql = "SELECT tbp.int_bovino_fk, tbp.dat_fecha_parto, tbe.int_cant_parto FROM tb_preñez tbp
 	INNER JOIN tb_expediente tbe on tbp.int_bovino_fk = tbe.int_idexpediente
 	WHERE int_id_preñez = " . $idPrenez  . ";";
@@ -79,13 +80,12 @@ if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo
 	if ($result[0] == '1') {
 		$idBovino = $result[2][0]['int_bovino_fk'];
 		$cantidadParto = $result[2][0]['int_cant_parto'];
-		$fechaParto =  $result[2][0]['dat_fecha_parto'];
 		$array_update = array(
 			"table" => "tb_expediente",
 			"int_idexpediente" => $idBovino,
 			"nva_estado_bovino" => 'parida',
 			"int_cant_parto" => ($cantidadParto + 1),
-			"dat_fecha_ult_parto" =>  $fechaParto
+			"dat_fecha_ult_parto" =>  $fechaHoy
 		);
 		$resultado = $modelo->actualizar_generica($array_update);
 		if ($resultado[0] == '1' && $resultado[4] > 0) {
