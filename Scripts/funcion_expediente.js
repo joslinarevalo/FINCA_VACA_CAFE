@@ -1,5 +1,6 @@
 let modificar = false
 //$home="http://localhost/DISEÑO-G07_Json/";
+$("#msg_costoprecio").css("display","none");
 
 function validar_campito() {
 
@@ -271,6 +272,26 @@ $(function () {
 			showConfirmButton: false,
 			timer: 1500
 		});
+		var Toast2 = Swal.mixin({
+			toast: true,
+			position: 'center',
+			showConfirmButton: false,
+			timer: 1500
+		});
+		if ($("#costo").val() > $("#precioVenta").val()) {
+			Toast2.fire({
+				icon: 'error',
+				title: 'Costo no puede ser mayor que Precio de Venta'
+			});
+			return;
+		}
+		if ($("#costo").val() < 0 || $("#precioVenta").val() < 0) {
+			Toast2.fire({
+				icon: 'error',
+				title: 'El costo o precio no puede ser menor que cero'
+			});
+			return;
+		}
 		if ($("#tipo_bovino").val() == "Seleccione") {
 			Toast.fire({
 				icon: 'info',

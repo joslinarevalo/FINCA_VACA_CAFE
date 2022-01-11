@@ -222,12 +222,14 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 			}
 	}
 } else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos'] == "si_actualizalo") {
-	/*$encontro = "";
+	$encontro = "";
 	//consulta para obtener el nombre 
 	$sql = "SELECT
-			nva_nom_bovino 
+				nva_nom_bovino 
 			FROM
-			tb_expediente;";
+				tb_expediente 
+			WHERE
+				int_idexpediente != '$_POST[llave_expediente]';";
 
 	$result_nombre = $modelo->get_query($sql);
 
@@ -294,7 +296,7 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 
 	 
 	 //aqui termina el if de exito
-	}else{}*/
+	}else{
 		if ($_POST['tipo_bovino'] == "vaca_lechera") {
 				$estado_bovino = "activo";
 				$array_update = array(
@@ -337,6 +339,7 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 			print json_encode(array("Error", $_POST, $resultado));
 			exit();
 			}
+	}
 
 } else {
 	$htmltr = $html = "";
@@ -373,11 +376,7 @@ if (isset($_GET['subir_imagen']) && $_GET['subir_imagen'] == "subir_imagen_ajax"
 		                            <button class="btn btn-info btn-sm btn_editar"
 				                        	data-int_idexpediente=' . $row['int_idexpediente'] . '>
 				                            <i class="fas fa-pencil-alt"></i>
-				                        </button>
-				                          <button class="btn btn-danger btn-sm btn_baja"
-				                        	data-int_idexpediente=' . $row['int_idexpediente'] . '>
-				                            <i class="fas fa-trash"></i>
-				                        </button>
+				                      
 
 				                </td>
 		                        </tr>';

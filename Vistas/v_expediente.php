@@ -232,31 +232,31 @@
                                         </div>
                                     </div>
                                         <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label>Costo</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <i class="fas fa-book"></i>
-                                                    </span>
+                                            <div class="form-group">
+                                                <label>Costo</label>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="fas fa-book"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="number" min="0" step="00.01" class="form-control" placeholder="1" required name="costo" id="costo">
                                                 </div>
-                                                <input type="number" class="form-control" placeholder="1" required name="costo" id="costo"  pattern="^[0-9]+">
                                             </div>
                                         </div>
-                                    </div>
-                                      <div class="col-md-2">
-                                        <div class="form-group">
-                                            <label>Precio de Venta</label>
-                                            <div class="input-group mb-3">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text">
-                                                        <i class="fas fa-book"></i>
-                                                    </span>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <label>Precio de Venta</label>
+                                                <div class="input-group mb-3">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text">
+                                                            <i class="fas fa-book"></i>
+                                                        </span>
+                                                    </div>
+                                                    <input type="number" class="form-control" placeholder="1" required name="precioVenta" id="precioVenta"  min="0" step="00.01">
                                                 </div>
-                                                <input type="number" class="form-control" placeholder="1" required name="precioVenta" id="precioVenta"  pattern="^[0-9]+">
                                             </div>
                                         </div>
-                                    </div>
 
                                   
                                     <div class="col-md-6">
