@@ -6,23 +6,64 @@ function validar_campito() {
 	$(document).on("change", "#tipo_bovino", function (e) {
 		e.preventDefault();
 
-		if ($("#tipo_bovino").val() == "vaca_lechera") {
+		if ($("#tipo_bovino").val() == "vaca_lechera" ) {
 			$("#cant_parto_bovino").prop("disabled", false);
-			$("#fecha_ult_parto").prop("disabled", false);
+			$("#control_fecha").val("no_hay_fecha");
+		//	$("#fecha_ult_parto").prop("disabled", false);
+			
 
 		} else {
-			$("#cant_parto_bovino").prop("disabled", true);
+			
 			$("#fecha_ult_parto").prop("disabled", true);
+			$("#cant_parto_bovino").prop("disabled", true);
+		}
+	});
+	$(document).on("change", "#cant_parto_bovino", function (e) {
+		e.preventDefault();
+
+		if ($("#cant_parto_bovino").val() >0 ) {
+			$("#fecha_ult_parto").prop("disabled", false);
+			$("#control_fecha").val("si_hay_fecha");
+
+		}else{
+			//$("#cant_parto_bovino").prop("disabled", true);
 		}
 	});
 }
 
 $(function () {
+	document.getElementById("imagen_bovino").onchange = function () {
+		var reader = new FileReader();
 
+		reader.onload = function (e) {
+			// get loaded data and render thumbnail.
+
+			document.getElementById('img_bovino').src = e.target.result
+			document.getElementById('img_bovino').width = 100
+			document.getElementById('img_bovino').height = 100
+		};
+
+		// read the image file as a data URL.
+		reader.readAsDataURL(this.files[0]);
+	};
+	document.getElementById("imagen_expediente").onchange = function () {
+		var reader = new FileReader();
+
+		reader.onload = function (e) {
+			// get loaded data and render thumbnail.
+
+			document.getElementById('img_carta_venta').src = e.target.result
+			document.getElementById('img_carta_venta').width = 100
+			document.getElementById('img_carta_venta').height = 100
+		};
+
+		// read the image file as a data URL.
+		reader.readAsDataURL(this.files[0]);
+	};
 
 	var fecha_hoy = new Date();
 	$('#fecha_ult_parto').datepicker({
-		format: "dd/mm/yyyy",
+		format: "dd-mm-yyyy",
 		todayBtn: true,
 		clearBtn: false,
 		language: "es",
@@ -47,13 +88,13 @@ $(function () {
 
 	$('input[type="file"]').change(function (e) {
 		var fileName = e.target.files[0].name;
-		console.log(fileName)
 		$("#imagen_bovino").val(fileName);
 
 		var reader = new FileReader();
 		reader.onload = function (e) {
 			// get loaded data and render thumbnail.
-			document.getElementById("preview").src = e.target.result;
+
+
 		};
 		// read the image file as a data URL.
 		reader.readAsDataURL(this.files[0]);
@@ -62,13 +103,11 @@ $(function () {
 	$('input[type="file"]').change(function (e) {
 		var fileName = e.target.files[0].name;
 		console.log(fileName)
-
 		$("#imagen_expediente").val(fileName);
-
 		var reader = new FileReader();
 		reader.onload = function (e) {
 			// get loaded data and render thumbnail.
-			document.getElementById("preview").src = e.target.result;
+
 		};
 		// read the image file as a data URL.
 		reader.readAsDataURL(this.files[0]);
@@ -122,10 +161,11 @@ $(function () {
 		document.getElementById('img_carta_venta').width = ''
 		document.getElementById('img_carta_venta').height = ''
 		document.getElementById('ingreso_datos').value = 'si_registro'
+		document.querySelector('#radioPrimary1').checked = true
 		modificar = false
 		$('#md_registrar_expediente').modal('show');
 
-	})
+	});
 
 	$(document).on("click", ".btn_editar", function (e) {
 		e.preventDefault();
@@ -152,9 +192,7 @@ $(function () {
 				console.log("propietario: ", json[2]['int_id_propietario']);
 				console.log("raza: ", json[2]['int_idraza']);
 				console.log("tipo bovino: ", json[2]['nva_tipo_bovino']);
-				var fecHA_string = json[2]['dat_fecha_ult_parto'];
-				var porciones = fecHA_string.split('-');
-	    		var fecha = porciones[2]+"/"+porciones[1]+"/"+porciones[0]
+				
 				$('#llave_expediente').val(id);
 				$('#ingreso_datos').val("si_actualizalo");
 				// $('#fecha_ult_parto').val(fecha);
@@ -165,14 +203,22 @@ $(function () {
 				$('#propietario').val(json[2]['int_id_propietario']);
 				$('#raza_bovino_select').val(json[2]['int_idraza']);
 				$('#tipo_bovino').val(json[2]['nva_tipo_bovino']);
-				$('#fecha_ult_parto').val(fecha);
+				$('#fecha_ult_parto').val(json[2]['dat_fecha_ult_parto']);
+				$('#costo').val(json[2]['dou_costo_bovino']);
+				$('#precioVenta').val(json[2]['dou_precio_venta_bovino']);
 				if (json[2]['nva_tipo_bovino'] == "vaca_lechera") {
 					$("#cant_parto_bovino").prop("disabled", false);
 					$("#fecha_ult_parto").prop("disabled", false);
+				
 
 				} else {
 					$("#cant_parto_bovino").prop("disabled", true);
 					$("#fecha_ult_parto").prop("disabled", true);
+				}
+				if (json[2]['nva_sexo_bovino'] == 'femenino') {
+					document.querySelector('#radioPrimary2').checked = true
+				} else {
+					document.querySelector('#radioPrimary1').checked = true
 				}
 				document.getElementById('img_bovino').src = json[2]['nva_foto_bovino']
 				document.getElementById('img_carta_venta').src = json[2]['nva_carta_venta']
@@ -183,16 +229,22 @@ $(function () {
 				document.getElementById('ingreso_datos').value = 'si_actualizalo'
 				modificar = true
 				$('#md_registrar_expediente').modal('show');
-			}
+			} /*else if (json[1] == "existe bovino") {
+				Toast.fire({
+					icon: 'info',
+					title: 'Bovino ya existe'
+				});
+				return;
+			} else {
+				Toast.fire({
+					icon: 'error',
+					title: 'No se pudo registrar!.'
+				});
+				cargar_datos();
+			}*/
 
-		}).fail(function () {
-
-		}).always(function () {
-			Swal.close();
-		});
-
+	    });
 	});
-
 
 	$('#formulario_registro').validate({
 		rules: {
@@ -271,8 +323,6 @@ $(function () {
 			if (json[0] == "Exito") {
 
 				$('#md_registrar_expediente').modal('hide');
-
-
 				if ($("#imagen_expediente").val() != "" && $("#imagen_bovino").val() != "") {
 
 					subir_archivo($("#imagen_expediente"), json[1], "subir_imagen_ajax");
@@ -347,6 +397,7 @@ function validar_archivo(file) {
 			var origen, tipo, tamanio;
 			//Envia la imagen a la pantalla
 			origen = e.target; //objeto FileReader
+			console.log('EL ORIGEN ' + e.target.files[0].mozFullPath)
 			//Prepara la información sobre la imagen
 
 			tipo = archivo2.substring(archivo2.lastIndexOf("."));

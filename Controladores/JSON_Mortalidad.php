@@ -30,17 +30,15 @@ if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo
 	}
 } else if (isset($_POST['consultar_info']) && $_POST['consultar_info'] == "si_este_id") {
 
-
-
-	$resultado = $modelo->get_todos("tb_baja", "WHERE id_baja = '" . $_POST['id_baja'] . "'");
-	if ($resultado[0] == '1') {
+		$resultado = $modelo->get_todos("tb_baja", "WHERE id_baja = '" . $_POST['id_baja'] . "'");
+		if ($resultado[0] == '1') {
 		print json_encode(array("Exito", $_POST, $resultado[2][0]));
 		exit();
-	} else {
+		} else {
 		print json_encode(array("Error", $_POST, $resultado));
 		exit();
-	}
-} else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos'] == "si_actualizalo") {
+		}
+	} else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos'] == "si_actualizalo") {
 
 	$array_update = array(
 		"table" => "tb_baja",
@@ -50,6 +48,7 @@ if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo
 		"idexpeiente_baja" => $_POST['idexpeiente_baja']
 	);
 	$resultado = $modelo->actualizar_generica($array_update);
+	
 } else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos'] == "si_registro") {
 	$id_insertar = $modelo->retonrar_id_insertar("tb_baja");
 	$array_insertar = array(

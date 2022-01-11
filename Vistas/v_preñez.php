@@ -105,7 +105,7 @@
                                         <?php
                                         $usuario = 'root';
                                         $password = '';
-                                        $db = new PDO('mysql:host=localhost;dbname=db_finca', $usuario, $password);
+                                        $db = new PDO('mysql:host=localhost;dbname=db_finquita', $usuario, $password);
                                         ?>
                                         <div class="form-group">
                                             <label class="control-label">Bovino</label>

@@ -43,7 +43,7 @@ $(function (){
 	    		$('#ingreso_datos').val("si_actualizalo");
 	    		$('#idexpeiente_baja').val(json[2]['idexpeiente_baja']);
 	    		$('#fehca_baja').val(fecha);
-	    		$('#descripcion_baja').val(json[2]['descripcion_baja']);
+	    		$('#descripcion').val(json[2]['descripcion_baja']);
 	    		$('#md_registrar_mortalidad').modal('show');
 	    	}
 

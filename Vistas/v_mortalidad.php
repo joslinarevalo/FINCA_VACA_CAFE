@@ -85,7 +85,7 @@
                     <div class="modal-content">
                         <div class="modal-header bg-success">
                             <h1 class="modal-title text-center " id="exampleModalLabel">Registro de Baja </h1>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="btn bg-success btn_cerrar_class" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -112,7 +112,7 @@
                                                 <select class="form-control" name="idexpeiente_baja" id="idexpeiente_baja" class="form-control select2">
                                                     <option value="Seleccione">Seleccione</option>
                                                     <?php
-                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'activo' or nva_estado_bovino = 'preñada'");
+                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino != 'inactivo'");
                                                     $query->execute();
                                                     $data = $query->fetchAll();
 
@@ -146,6 +146,93 @@
                                             </div>
 
                                             <input type="text are" class="form-control" required id="descripcion_baja" name="descripcion_baja" autocomplete="off">
+                                            <div class="input-group-append">
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" id="boton_enviar" class="btn bg-success"><i class="fa fa-save"></i>Guardar</button>
+
+                            <button type="button" class="btn bg-success btn_cerrar_class">Cerrar</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              <!-- MODAL EDITAR -->
+            <div class="modal fade" id="md_modificar_mortalidad" tabindex="-1" role="dialog" aria-labelledby=" exampleModalLabel" aria-hidden="true">
+
+                <div class="modal-dialog modal-ml" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header bg-success">
+                            <h1 class="modal-title text-center " id="exampleModalLabel">Modificar Baja </h1>
+                            <button type="button" class="btn bg-success btn_cerrar_class" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+
+                            <form name="formulario_Editar" id="formulario_Editar">
+                               
+                                <input type="hidden" id="llave_baja" name="llave_baja" value="si_registro">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <?php
+                                        $usuario = 'root';
+                                        $password = '';
+                                        $db = new PDO('mysql:host=localhost;dbname=db_finca', $usuario, $password);
+                                        ?>
+                                        <div class="form-group">
+
+                                            <label>Bovino</label>
+                                            <div class="input-group
+                                            mb-3">
+                                                <span class="input-group-text">
+                                                    <i class="fas fa fa-expand-arrows-alt"></i>
+                                                </span>
+                                                <select class="form-control" name="idexpeiente_baja" id="idexpeiente_baja" class="form-control select2">
+                                                    <option value="Seleccione">Seleccione</option>
+                                                    <?php
+                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente");
+                                                    $query->execute();
+                                                    $data = $query->fetchAll();
+
+                                                    foreach ($data as $valores) :
+                                                        echo '<option value="' . $valores["int_idexpediente"] . '">' . $valores["nva_nom_bovino"] . '</option>';
+                                                    endforeach;
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <label>Fecha de baja</label>
+
+                                        <div class="input-group
+                                                mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">
+                                                    <i class="fas
+                                                            fa-calendar"></i>
+                                                </span>
+                                            </div>
+                                            <input type="text" class="form-control
+                                                    disabled" placeholder="mm/dd/yyyy" required name="fecha" id="fehca" autocomplete="off">
+                                        </div>
+
+                                        <label>Descripción</label>
+                                        <div class="input-group
+                                                mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text"><i class="fa fa fa-square"></i></span>
+                                            </div>
+
+                                            <input type="text are" class="form-control" required id="descripcion" name="descripcion_baja" autocomplete="off">
                                             <div class="input-group-append">
 
                                             </div>
