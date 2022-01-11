@@ -15,9 +15,10 @@ if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo
 		exit();
 	}
 } else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos'] == "si_actualizalo") {
+	
 	$array_update = array(
 		"table" => "tb_preñez",
-		"int_id_preñez" => $_POST['llave_persona'],
+		"int_id_preñez" => $_POST['llave_preñez'],
 		"int_bovino_fk" => $_POST['int_bovino_edit'],
 		"dat_fecha_monta" => $modelo->formatear_fecha($_POST['dat_fecha_monta_edit']),
 		"dat_fecha_celo" => $modelo->formatear_fecha($_POST['dat_fecha_celo_edit']),
@@ -111,13 +112,7 @@ if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo
 		WHERE nva_estado_bovino ='preñada'";
 	$result = $modelo->get_query($sql);
 	if ($result[0] == '1') {
-
-
-
 		$fecha_actual = new DateTime(date('Y-m-d')); //nueva variable para vencimiento//
-
-
-
 		foreach ($result[2] as $row) {
 
 			$fecha_final = new DateTime($row['dat_fecha_parto']);
@@ -175,5 +170,4 @@ if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo
 		exit();
 	}
 }
-/*hacer validacion para que solo se pueda ver la pre;es cuando ya se ha dado la fecha de parto 
-validar que cuando este embarazada y le doy de baja se desabilite en prenez*/
+

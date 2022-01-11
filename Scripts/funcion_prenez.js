@@ -101,18 +101,13 @@ $(function () {
 
 
 	});
-
-
 	$(document).on("click", ".btn_cerrar_class", function (e) {
 		e.preventDefault();
 		$("#formulario_registroP").trigger('reset');
 		$('#md_registrar_prenez').modal('hide');
-
-
 	});
 
 	$(document).on("click", ".btn_editar", function (e) {
-
 		e.preventDefault();
 		mostrar_mensaje("Consultando datos");
 		var int_id_preñez = $(this).attr("data-int_id_preñez");
@@ -136,14 +131,16 @@ $(function () {
 				var porciones = fecHA2_string.split('-');
 				var fecha2 = porciones[2] + "/" + porciones[1] + "/" + porciones[0]
 
-				$('#llave_personaEditar').val(int_id_preñez);
+				$('#llave_preñez').val(int_id_preñez);
 				$('#ingreso_datos').val("si_actualizalo");
 				$('#int_bovino_edit').val(json[2]['int_bovino_fk']);
 				$('#dat_fecha_celo_edit').val(fecha);
 				$('#dat_fecha_monta_edit').val(fecha1);
 				$('#dat_fecha_parto_edit').val(fecha2);
 				$('#md_actualizar_prenez').modal('show');
+				
 			}
+				
 
 		}).fail(function () { }).always(function () {
 			Swal.close();
@@ -180,6 +177,7 @@ $(function () {
 			$(element).removeClass('is-invalid');
 		}
 	});
+
 	$(document).on("submit", "#formulario_Editar", function (e) {
 		e.preventDefault();
 		var datos = $("#formulario_Editar").serialize();
@@ -207,9 +205,16 @@ $(function () {
 			console.log("EL EDITAR", json);
 
 			if (json[0] == "Exito") {
-				$('#md_actualizar_prenez').trigger('reset');
+				$('#formulario_Editar').trigger('reset');
 				$('#md_actualizar_prenez').modal('hide');
 			}
+			setTimeout(function (s) {
+					 Toast.fire({
+							icon: 'success',
+							title: 'Preñez Modificada!.'
+						})
+					
+				}, 500)
 			cargar_datos();
 		}).fail(function () { }).always(function () { });
 	});
@@ -241,8 +246,15 @@ $(function () {
 			console.log("EL GUARDAR", json);
 
 			if (json[0] == "Exito") {
-				$('#md_registrar_prenez').trigger('reset');
+				$('#formulario_registroP').trigger('reset');
 				$('#md_registrar_prenez').modal('hide');
+				setTimeout(function (s) {
+					 Toast.fire({
+							icon: 'success',
+							title: 'Preñez Registrada!.'
+						})
+					
+				}, 500)
 			}
 			cargar_datos();
 		}).fail(function () { }).always(function () { });

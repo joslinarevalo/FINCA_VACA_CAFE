@@ -88,8 +88,8 @@
                 <div class="modal-dialog modal-ml" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-success">
-                            <h1 class="modal-title text-center ">Registro de Preñez </h1>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h2 class="modal-title text-center ">Registro de Preñez </h2>
+                            <button type="button" class="btn btn-success  btn_cerrar_class" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -169,46 +169,41 @@
                                     <!-- /.col -->
 
                                 </div>
-                                <div>
-
-                                    <button type="submit" id="boton_enviar" class="btn bg-success"><i class="fa fa-save"></i> Guardar</button>
-                                    <button type="button" class="btn btn-success  btn_cerrar_class ">Cerrar</button>
-
-
-
-
+                                <div class="modal-footer float-right">
+                                   <button type="submit" id="boton_enviar" class="btn bg-success" ><i class="fa fa-save"></i> Guardar</button>
                                 </div>
+                                <div class="modal-footer float-left">
+                                  <button type="button" class="btn btn-success  btn_cerrar_class"  aria-label="Close">Cerrar
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>  
+                             </form>
                         </div>
-                        </form>
-
                     </div>
                 </div>
             </div>
             <!---MODAL MODIFICAR-->
-             
             <div class="modal fade" id="md_actualizar_prenez" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
                 <div class="modal-dialog modal-ml" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-success">
-                            <h1 class="modal-title text-center ">Actualizar  Preñez </h1>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <h2 class="modal-title text-center ">Actualizar  Preñez </h2>
+                            <button type="button" class="btn btn-success  btn_cerrar_class" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <form name="formulario_Editar" id="formulario_Editar">
-
-                            
-                                <input type="hidden" id="llave_personaEditar" name="llave_personaEditar" value="si_registro">
-
+                                <input type="hidden" id="ingreso_datos" name="ingreso_datos" value="si_actualizalo">
+                                 <input type="hidden" id="llave_preñez" name="llave_preñez" value="si_actualizalo">
                                 <div class="row">
 
                                     <div class="col-md-12">
                                          <?php
                                         $usuario = 'root';
                                         $password = '';
-                                        $db = new PDO('mysql:host=localhost;dbname=db_finca', $usuario, $password);
+                                        $db = new PDO('mysql:host=localhost;dbname=db_finquita', $usuario, $password);
                                         ?>
                                         <div class="form-group">
                                             <label class="control-label">Bovino</label>
@@ -220,7 +215,7 @@
                                                 <select class="form-control" name="int_bovino_edit" id="int_bovino_edit">
                                                     <option value="Seleccione">Seleccione</option>
                                                     <?php
-                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'preñada' ");
+                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'preñada' and nva_tipo_bovino='vaca_lechera'");
                                                     $query->execute();
                                                     $data = $query->fetchAll();
 
@@ -231,8 +226,6 @@
                                                 </select>
                                             </div>
                                         </div>
-                                      
-                                      
                                         <label>Fecha de Celo</label>
                                         <div class="input-group
                                                 mb-3">
@@ -272,26 +265,23 @@
                                         </div>
                                     </div>
                                     <!-- /.col -->
-
+                                 </div>
+                                   <div class="modal-footer float-right">
+                                   <button type="submit" id="boton_enviar" class="btn bg-success" ><i class="fa fa-save"></i> Modificar</button>
                                 </div>
-                                <div>
-
-                                    <button type="submit" id="boton_enviar" class="btn bg-success"><i class="fa fa-save"></i> Modificar</button>
-                                    <button type="button" class="btn btn-success  btn_cerrar_class ">Cerrar</button>
-
-
-
-
-                                </div>
+                                <div class="modal-footer float-left">
+                                  <button type="button" class="btn btn-success  btn_cerrar_class"  aria-label="Close">Cerrar
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div> 
+                            </form>
                         </div>
-                        </form>
+                        </div>
+                     
 
                     </div>
                 </div>
-            </div>
         </div>
-
-
         <footer class="main-footer">
             <div class="float-right d-none d-sm-block">
             </div>
@@ -300,7 +290,7 @@
         </footer>
         <aside class="control-sidebar control-sidebar-dark"></aside>
     </div>
-
+        
     <!-- jQuery -->
     <script src="../plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
