@@ -21,8 +21,6 @@ $(function (){
 	    endDate:fecha_hoy
 	});
 	cargar_datos();
-	
-
 
 	$(document).on("click",".btn_cerrar_class",function(e){
 		e.preventDefault();
@@ -30,7 +28,18 @@ $(function (){
 		$('#md_registrar_mortalidad').modal('hide');
 
 	});
+		$(document).on("click",".btn_eliminar",function(e){
+		e.preventDefault();
+		var id_baja = $(this).attr("data-id_baja");
+		var id_baja1 = $(this).attr("data-id_bajaEX");
+
+		$('#idexpeiente').val(id_baja1);
+		$('#id_bajaE').val(id_baja);
+
+		$('#md_Eliminar_mortalidad').modal('show');
 	
+	
+	});
 	$(document).on("click",".btn_editar",function(e){
 
 		e.preventDefault(); 
@@ -81,7 +90,7 @@ $(function (){
 	      $(element).removeClass('is-invalid');
 	    }
 	});
-      $('#formulario_Editar').validate({
+    $('#formulario_Editar').validate({
 	    rules: {	     
 	    },
 	    errorElement: 'span',
@@ -96,6 +105,7 @@ $(function (){
 	      $(element).removeClass('is-invalid');
 	    }
 	});
+
 
 	$(document).on("submit","#formulario_registroM",function(e){
 		e.preventDefault();
@@ -132,7 +142,7 @@ $(function (){
 						})
 					
 				}, 500)
-	cargar_datos();
+		cargar_datos();
         	}
         
         	
@@ -176,6 +186,43 @@ $(function (){
              cargar_datos();
         	}
         	 
+        });
+	});
+
+	$(document).on("submit","#formulario_Eliminar",function(e){
+		e.preventDefault();
+		var datos = $("#formulario_Eliminar").serialize();
+		var Toast = Swal.mixin({
+	        toast: true,
+	        position: 'top-end',
+	        showConfirmButton: false,
+	        timer: 7000
+    	});
+		
+		console.log("Imprimiendo datos: ",datos);
+
+		$.ajax({
+            dataType: "json",
+            method: "POST",
+            url:'../Controladores/JSON_Mortalidad.php',
+            data : datos,
+        }).done(function(json) {
+			console.log("EL GUARDAR",json);
+        	if(json[0]=="Exito"){
+	        	
+	        	$("#formulario_Eliminar").trigger('reset');
+	        	$('#md_Eliminar_mortalidad').modal('hide');
+	        	setTimeout(function (s) {
+					 Toast.fire({
+							icon: 'success',
+							title: 'Bovino dado de Alta con exito!.'
+						})
+					
+				}, 500)
+				cargar_datos();
+        	}
+        
+        	
         });
 	});
 });

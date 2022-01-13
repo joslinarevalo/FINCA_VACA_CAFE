@@ -171,10 +171,10 @@
                 </div>
             </div>
               <!-- MODAL EDITAR -->
-              <div class="modal fade" id="md_modificar_mortalidad">
+            <div class="modal fade" id="md_modificar_mortalidad">
                 <div class="modal-dialog modal-ml" role="document">
                     <div class="modal-content">
-                        <form name="formulario_Editar" id="formulario_Editar">
+                    <form name="formulario_Editar" id="formulario_Editar">
                              <input type="hidden" id="ingreso_datos_edit" name="ingreso_datos_edit" value="si_actualizalo">
                             <input type="hidden" id="llave_baja_edit" name="llave_baja_edit" value="si_actualizalo">
                             
@@ -258,12 +258,45 @@
 
 
                             </div>
-                    </div>
+                   
                     </form>
+                     </div>
                 </div>
             </div>
-        
+               <!-- MODAL ELIMINAR -->
+            <div class="modal fade" id="md_Eliminar_mortalidad">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                    <form name="formulario_Eliminar" id="formulario_Eliminar">
+                            <input type="hidden" id="eliminar_baja" name="eliminar_baja" value="si_eliminala">
+                            <input type="hidden" id="idexpeiente" name="idexpeiente">
+                            <input type="hidden" id="id_bajaE" name="id_bajaE">
+                            
+                            <div class="modal-header bg-danger text-center">
+                              <h5 class="modal-title text-center" id="exampleModalLabel">Eliminar de Baja </h5>
+                            </div>
+                            <div class="modal-body">
 
+                                <div class="row">
+                                    
+                                    <label class="text-center">Se eliminara Bovino de baja y se actualizará en el Expediente </label>
+                                </div>
+                                
+                                <div class="modal-footer float-right">
+                                     <button type="button" class="btn btn-danger btn_cerrar_class" data-dismiss="modal" aria-label="Close"> Cancelar
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-footer float-left">
+                                  <button type="submit" id="boton_enviar" class="btn btn-danger" ><i class="fas fa-trash"></i>Eliminar</button>
+                                </div>
+                                 
+                           </div>
+                   
+                    </form>
+                     </div>
+                </div>
+            </div>
         </div>
 
         <footer class="main-footer">
