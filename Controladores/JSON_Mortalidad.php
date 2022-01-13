@@ -4,8 +4,6 @@ require_once("../Conexion/Modelo.php");
 $modelo = new Modelo();
 
 if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo") {
-
-
 	$array_seleccionar = array();
 	$array_seleccionar['table'] = "tb_baja";
 	$array_seleccionar['campo'] = "id_baja";
@@ -18,8 +16,6 @@ if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo
 	} else if ($_POST['tipo'] == "descripcion_baja") {
 		$array_seleccionar['descripcion_baja'] = $_POST['campo'];
 	}
-
-
 	$resultado = $modelo->seleccionar_cualquiera($array_seleccionar);
 	if ($resultado[0] == 0 && $resultado[4] == 0) {
 		print json_encode(array("Exito", $resultado, $array_seleccionar));
@@ -38,16 +34,24 @@ if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo
 		print json_encode(array("Error", $_POST, $resultado));
 		exit();
 		}
-	} else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos'] == "si_actualizalo") {
+} else if (isset($_POST['ingreso_datos_edit']) && $_POST['ingreso_datos_edit'] == "si_actualizalo_ya") {
 
 	$array_update = array(
 		"table" => "tb_baja",
-		"id_baja" => $_POST['llave_baja'],
-		"fehca_baja" => $modelo->formatear_fecha($_POST['fehca_baja']),
-		"descripcion_baja" => $_POST['descripcion_baja'],
-		"idexpeiente_baja" => $_POST['idexpeiente_baja']
+		"id_baja" => $_POST['llave_baja_edit'],
+		"fehca_baja" => $modelo->formatear_fecha($_POST['fecha']),
+		"descripcion_baja" => $_POST['descripcion'],
+		"idexpeiente_baja" => $_POST['idbajaeditar']
 	);
 	$resultado = $modelo->actualizar_generica($array_update);
+		if($resultado[0]=='1' && $resultado[4]>0){
+        	print json_encode(array("Exito",$_POST,$resultado));
+			exit();
+
+        }else {
+        	print json_encode(array("Error",$_POST,$resultado));
+			exit();
+        }
 	
 } else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos'] == "si_registro") {
 	$id_insertar = $modelo->retonrar_id_insertar("tb_baja");
@@ -91,10 +95,14 @@ if (isset($_POST['validar_campos']) && $_POST['validar_campos'] == "si_por_campo
 	                            <td class=text-center>' . $modelo->formatear_fecha($row['fehca_baja']) . '</td>
 	                            <td class=text-center>' . $row['descripcion_baja'] . '</td>
 	                           
-	                              <td class="text-center">
+	                             <td class="text-center">
 	                            <button class="btn btn-info btn-sm btn_editar "
 			                        	data-id_baja=' . $row['id_baja'] . '>
 			                            <i class="fas fa-pencil-alt"></i>
+			                    </button>
+			                    <button class="btn btn-danger btn-sm btn_baja"
+			                        	data-id_baja=' . $row['id_baja'] . '>
+			                            <i class="fas fa-trash"></i>
 			                        </button>
 			                        
 			                </td>

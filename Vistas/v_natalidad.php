@@ -106,7 +106,7 @@
                                                     <i class="fas fa fa-expand-arrows-alt"></i>
                                                 </span>
                                                 <select class="form-control" name="int_id_expe_madre" id="int_id_expe_madre" class="form-control select2" data-parsley-required-message="Campo requerido" required>
-                                                    <option value="0">Seleccione</option>
+                                                    <option value="Seleccione">Seleccione</option>
                                                     <?php
                                                     $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'parida' and nva_tipo_bovino='vaca_lechera'");
                                                     $query->execute();
@@ -129,7 +129,7 @@
                                                     <i class="fas fa fa-expand-arrows-alt"></i>
                                                 </span>
                                                 <select class="form-control" name="int_id_expe_ternero" id="int_id_expe_ternero" class="form-control select2" required>
-                                                    <option value="0">Seleccione</option>
+                                                    <option value="Seleccione">Seleccione</option>
                                                     <?php
                                                     $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'activo' and nva_tipo_bovino='ternero' or
                                                     nva_tipo_bovino='novia' ");
@@ -175,14 +175,15 @@
             </div>
 
         </div>
-    </div>
-    <footer class="main-footer">
+          <footer class="main-footer">
         <div class="float-right d-none d-sm-block">
         </div>
         <strong>UES &copy; 2021</strong>
         Todos los Derechos Reservados
 
     </footer>
+    </div>
+  
     <aside class="control-sidebar control-sidebar-dark"></aside>
     <!-- jQuery -->
     <script src="../plugins/jquery/jquery.min.js"></script>

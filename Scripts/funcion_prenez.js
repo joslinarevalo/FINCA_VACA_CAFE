@@ -99,8 +99,7 @@ $(function () {
 		});
 
 
-
-	});
+    });
 	$(document).on("click", ".btn_cerrar_class", function (e) {
 		e.preventDefault();
 		$("#formulario_registroP").trigger('reset');

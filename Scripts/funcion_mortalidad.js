@@ -10,6 +10,16 @@ $(function (){
 	    todayHighlight: true,
 	    endDate:fecha_hoy
 	});
+	$('#fecha').datepicker({
+	    format: "dd/mm/yyyy",
+	    todayBtn: true,
+	    clearBtn: false,
+	    language: "es",
+	    calendarWeeks: true,
+	    autoclose: true,
+	    todayHighlight: true,
+	    endDate:fecha_hoy
+	});
 	cargar_datos();
 	
 
@@ -39,12 +49,12 @@ $(function (){
 	    		var fecHA_string = json[2]['fehca_baja'];
 				var porciones = fecHA_string.split('-');
 				var fecha = porciones[2]+"/"+porciones[1]+"/"+porciones[0]	    	
-	    		$('#llave_baja').val(id_baja);
-	    		$('#ingreso_datos').val("si_actualizalo");
-	    		$('#idexpeiente_baja').val(json[2]['idexpeiente_baja']);
-	    		$('#fehca_baja').val(fecha);
+	    		$('#llave_baja_edit').val(id_baja);
+	    		$('#ingreso_datos_edit').val("si_actualizalo_ya");
+	    		$('#idbajaeditar').val(json[2]['idexpeiente_baja']);
+	    		$('#fecha').val(fecha);
 	    		$('#descripcion').val(json[2]['descripcion_baja']);
-	    		$('#md_registrar_mortalidad').modal('show');
+	    		$('#md_modificar_mortalidad').modal('show');
 	    	}
 
 	    	 
@@ -56,7 +66,7 @@ $(function (){
 
 
 	});
-$('#formulario_registroM').validate({
+    $('#formulario_registroM').validate({
 	    rules: {	     
 	    },
 	    errorElement: 'span',
@@ -71,7 +81,21 @@ $('#formulario_registroM').validate({
 	      $(element).removeClass('is-invalid');
 	    }
 	});
-
+      $('#formulario_Editar').validate({
+	    rules: {	     
+	    },
+	    errorElement: 'span',
+	    errorPlacement: function (error, element) {
+	      error.addClass('invalid-feedback');
+	      element.closest('.input-group').append(error);
+	    },
+	    highlight: function (element, errorClass, validClass) {
+	      $(element).addClass('is-invalid');
+	    },
+	    unhighlight: function (element, errorClass, validClass) {
+	      $(element).removeClass('is-invalid');
+	    }
+	});
 
 	$(document).on("submit","#formulario_registroM",function(e){
 		e.preventDefault();
@@ -98,21 +122,63 @@ $('#formulario_registroM').validate({
         }).done(function(json) {
 			console.log("EL GUARDAR",json);
         	if(json[0]=="Exito"){
-	        	$('#md_registrar_mortalidad').trigger('reset');
+	        	
+	        	$("#formulario_registroM").trigger('reset');
 	        	$('#md_registrar_mortalidad').modal('hide');
+	        	setTimeout(function (s) {
+					 Toast.fire({
+							icon: 'success',
+							title: 'Dado de baja con exito!.'
+						})
+					
+				}, 500)
+	cargar_datos();
         	}
-        	
-        	
         
-        		cargar_datos();
-        }).fail(function(){
-
-        }).always(function(){
-
+        	
+        });
+	});
+	$(document).on("submit","#formulario_Editar",function(e){
+		e.preventDefault();
+		var datos = $("#formulario_Editar").serialize();
+		var Toast = Swal.mixin({
+	        toast: true,
+	        position: 'top-end',
+	        showConfirmButton: false,
+	        timer: 7000
+    	});
+		if ($("#idbajaeditar").val() == "Seleccione"){
+ 			Toast.fire({
+		        icon: 'info',
+		        title: 'Debe elegir el bovino'
+		    });
+			return;
+ 		}
+		console.log("Imprimiendo datos: ",datos);
+		$.ajax({
+            dataType: "json",
+            method: "POST",
+            url:'../Controladores/JSON_Mortalidad.php',
+            data : datos,
+        }).done(function(json) {
+			console.log("EL GUARDAR",json);
+        	if(json[0]=="Exito"){
+	        	
+	        	$("#formulario_Editar").trigger('reset');
+	        	$('#md_modificar_mortalidad').modal('hide');
+	        	setTimeout(function (s) {
+					 Toast.fire({
+							icon: 'success',
+							title: 'Baja modificada con exito!.'
+						})
+					
+				}, 500)
+             cargar_datos();
+        	}
+        	 
         });
 	});
 });
-
 
 
 function cargar_datos(){
@@ -128,12 +194,14 @@ function cargar_datos(){
     	$("#datos_tabla").empty().html(json[1]);
     	 $('#tabla_baja').DataTable();
     	$('#md_registrar_mortalidad').modal('hide');
+    	$('#md_modificar_mortalidad').modal('hide');
     }).fail(function(){
 
     }).always(function(){
     	Swal.close();
     });
 }
+
 
 function mostrar_mensaje(titulo,mensaje=""){
 	Swal.fire({

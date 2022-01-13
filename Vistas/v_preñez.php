@@ -85,7 +85,7 @@
             <!-- MODAL GUARDAR -->
             <div class="modal fade" id="md_registrar_prenez" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-                <div class="modal-dialog modal-ml" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-success">
                             <h2 class="modal-title text-center ">Registro de Preñez </h2>
@@ -101,16 +101,18 @@
 
                                 <div class="row">
 
-                                    <div class="col-md-12">
+                                    
                                         <?php
                                         $usuario = 'root';
                                         $password = '';
                                         $db = new PDO('mysql:host=localhost;dbname=db_finquita', $usuario, $password);
                                         ?>
+                                    <div class="col-md-6">
+
                                         <div class="form-group">
-                                            <label class="control-label">Bovino</label>
+                                               <label class="control-label">Bovino</label>
                                             <div class="input-group
-                                            mb-3">
+                                              mb-3">
                                                 <span class="input-group-text">
                                                     <i class="fas fa fa-expand-arrows-alt"></i>
                                                 </span>
@@ -128,7 +130,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <label>Fecha de Celo</label>
+                                         <label>Fecha de Celo</label>
                                         <div class="input-group
                                                 mb-3">
                                             <div class="input-group-prepend">
@@ -140,7 +142,10 @@
                                             <input type="text" class="form-control
                                                     disabled " placeholder="mm/dd/yyyy" required name="dat_fecha_celo" id="dat_fecha_celo" autocomplete="off">
                                         </div>
-                                        <!-- /.form-group -->
+                                            
+                                    </div>
+                                    <div class="col-md-6">
+                                         <!-- /.form-group -->
                                         <label>Fecha de Monta</label>
                                         <div class="input-group
                                                 mb-3">
@@ -164,8 +169,10 @@
                                             </div>
                                             <input type="text" class="form-control
                                             disabled" placeholder="mm/dd/yyyy" required name="dat_fecha_parto" id="dat_fecha_parto" autocomplete="off">
-                                        </div>
+                                        </div>     
                                     </div>
+                                       
+                                   
                                     <!-- /.col -->
 
                                 </div>
@@ -270,8 +277,9 @@
                                    <button type="submit" id="boton_enviar" class="btn bg-success" ><i class="fa fa-save"></i> Modificar</button>
                                 </div>
                                 <div class="modal-footer float-left">
-                                  <button type="button" class="btn btn-success  btn_cerrar_class"  aria-label="Close">Cerrar
-                                        <span aria-hidden="true">&times;</span>
+                                
+                                     <button type="button" class="btn btn-success  btn_cerrar_class" data-dismiss="modal" aria-label="Close">
+                                      Cerrar<span aria-hidden="true">&times;</span>
                                     </button>
                                 </div> 
                             </form>

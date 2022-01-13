@@ -1,4 +1,4 @@
-cargar_datos();
+
 $(function () {
 	//$('#formulario_registro').parsley();
 
@@ -14,15 +14,7 @@ $(function () {
 		endDate: fecha_hoy
 		//startDate:fecha_hoy
 	});
-
-	/*var fecha_hoy = new Date();
-	$(".form_datetime").datetimepicker({
-		format: 'dd-mm-yyyy hh:ii:ss',
-		endDate: fecha_hoy,
-		todayBtn: true
-	});*/
-
-
+	cargar_datos();
 
 	$('#formulario_registroN').validate({
 		rules: {
@@ -44,8 +36,6 @@ $(function () {
 		e.preventDefault();
 		$("#formulario_registroN").trigger('reset');
 		$('#md_registrar_Natalidad').modal('hide');
-
-
 	});
 
 	$(document).on("click", ".btn_editar", function (e) {
@@ -66,13 +56,11 @@ $(function () {
 				var fecHA_string = json[2]['dat_fecha_nacimiento'];
 				var porciones = fecHA_string.split('-');
 				var fecha = porciones[2] + "/" + porciones[1] + "/" + porciones[0]
-
 				$('#llave_natalidad').val(id);
 				$('#ingreso_datos').val("si_actualizalo");
 				$('#dat_fecha_nacimiento').val(fecha);
 				$('#int_id_expe_madre').val(json[2]['int_id_expe_madre']);
 				$('#int_id_expe_ternero').val(json[2]['int_id_expe_ternero']);
-
 				$('#md_registrar_Natalidad').modal('show');
 			}
 
@@ -91,6 +79,27 @@ $(function () {
 	$(document).on("submit", "#formulario_registroN", function (e) {
 		e.preventDefault();
 		var datos = $("#formulario_registroN").serialize();
+		
+		var Toast = Swal.mixin({
+			toast: true,
+			position: 'center',
+			showConfirmButton: false,
+			timer: 1500
+		});
+			if ($("#int_id_expe_madre").val() == "Seleccione") {
+			Toast.fire({
+				icon: 'info',
+				title: 'Seleccione la madre'
+			});
+			return;
+		}
+		if ($("#int_id_expe_ternero").val() == "Seleccione") {
+			Toast.fire({
+				icon: 'info',
+				title: 'Seleccione el Hijo'
+			});
+			return;
+		}
 		console.log("Imprimiendo datos: ", datos);
 		//mostrar_mensaje("Almacenando información","Por favor no recargue la página");
 		$.ajax({
@@ -102,7 +111,28 @@ $(function () {
 			console.log("EL GUARDAR", json);
 			if (json[0] == "Exito") {
 				$('#md_registrar_Natalidad').modal('hide');
-			}
+				$("#formulario_registroN").trigger('reset');
+					setTimeout(function (s) {
+					 Toast.fire({
+							icon: 'success',
+							title: 'Natalidad Registrada!.'
+						})
+					
+				}, 500)
+
+			}else if (json[1]=="Ternero asignado a la vaca") {
+	    		Toast.fire({
+		            icon: 'error',
+		            title: 'El Ternero ya fue asignado a su madre'
+		        });
+		        return;
+	    	}else if (json[1]=="consulta"){
+	    	 	Toast.fire({
+		            icon: 'error',
+		            title: 'Error en la consulta!'
+		        });
+		        return;
+	    	}
 
 
 			cargar_datos();

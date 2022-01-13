@@ -109,14 +109,6 @@ $(function (){
         	console.log("EL GUARDAR",json);
         	if (json[0] == "Exito") {
         		$('#modalAddvacuna').modal('hide');
-        	
-        		/*Toast.fire({
-	            	icon: 'success',
-	            	title: 'Medicamento Registrado!.'
-       			});*/
-        
-        
-
 				document.getElementById('addvacuna').reset()
 				setTimeout(function (s) {
 					if (modificar) {
@@ -130,7 +122,7 @@ $(function (){
 							title: 'Medicamento Registrado!.'
 						})
 					}
-				$("#modalAddvacuna").trigger('reset');
+				$("#modalAddvacuna").trigger('reset');//ver aqui en modal o addmodal
 				cargar_datos();
 				}, 400)
          

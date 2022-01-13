@@ -1,48 +1,73 @@
 <?php 
 	require_once("../Conexion/Modelo.php");
 	$modelo = new Modelo();
- if (isset($_POST['eliminar_natalidad']) && $_POST['eliminar_natalidad']=="si_eliminala") {
-		$array_eliminar = array(
-			"table"=>"tb_natalidad",
-			"int_id_natalidad"=>$_POST['int_id_natalidad']
+ if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos']=="si_actualizalo") {
 
-		);
-		$resultado = $modelo->eliminar_generica($array_eliminar);
-		if($resultado[0]=='1' && $resultado[4]>0){
-        	print json_encode(array("Exito",$_POST,$resultado));
-			exit();
+ 	    $encontro = "";
+		//consulta para obtener el nombre de la vaca y el tenero o ternera de la base
+		$sql = "SELECT
+				int_id_expe_madre, 
+				int_id_expe_ternero
+				FROM
+					tb_natalidad 
+					WHERE
+					int_id_natalidad != '$_POST[llave_natalidad]';";
+						$result_nombre = $modelo->get_query($sql);
+		if($result_nombre[0]=='1'){
+						foreach ($result_nombre[2] as $row) {
+				
+				if (($row['int_id_expe_madre'] == $_POST['int_id_expe_madre']) &&($row['int_id_expe_ternero'] == $_POST['int_id_expe_ternero'])){
+					$encontro = "bovinos encontrados";
+					break;
+				}
+			}
+			if ($encontro == "bovinos encontrados") {
+				print json_encode(array("Error","Ternero asignado a la vaca",$result_nombre));
+				exit();
+               //sino, guardamos todos los datos
+			}else{
+				$array_update = array(
+	            "table" => "tb_natalidad",
+	            "int_id_natalidad" => $_POST['llave_natalidad'],
+	            "dat_fecha_nacimiento" => $modelo->formatear_fecha($_POST['dat_fecha_nacimiento']), 
+	            "int_id_expe_madre" => $_POST['int_id_expe_madre'],
+	            "int_id_expe_ternero" => $_POST['int_id_expe_ternero']);
+				$resultado = $modelo->actualizar_generica($array_update);
 
-        }else {
-        	print json_encode(array("Error",$_POST,$resultado));
-			exit();
-        }
-		
+				if($resultado[0]=='1' && $resultado[4]>0){
+        		print json_encode(array("Exito",$_POST,$resultado));
+				exit();
+
+      		    }else {
+        		print json_encode(array("Error",$_POST,$resultado));
+				exit();
+        		}
 
 
-	}else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos']=="si_actualizalo") {
-		$array_update = array(
-            "table" => "tb_natalidad",
-            "int_id_natalidad" => $_POST['llave_natalidad'],
-            "dat_fecha_nacimiento" => $modelo->formatear_fecha($_POST['dat_fecha_nacimiento']), 
-            "int_id_expe_madre" => $_POST['int_id_expe_madre'],
-             "int_id_expe_ternero" => $_POST['int_id_expe_ternero']
-        );
-		$resultado = $modelo->actualizar_generica($array_update);
 
-		if($resultado[0]=='1' && $resultado[4]>0){
-        	print json_encode(array("Exito",$_POST,$resultado));
-			exit();
+			}
+        }else{
+			
+				$array_update = array(
+	            "table" => "tb_natalidad",
+	            "int_id_natalidad" => $_POST['llave_natalidad'],
+	            "dat_fecha_nacimiento" => $modelo->formatear_fecha($_POST['dat_fecha_nacimiento']), 
+	            "int_id_expe_madre" => $_POST['int_id_expe_madre'],
+	            "int_id_expe_ternero" => $_POST['int_id_expe_ternero']);
+				$resultado = $modelo->actualizar_generica($array_update);
 
-        }else {
-        	print json_encode(array("Error",$_POST,$resultado));
-			exit();
-        }
+				if($resultado[0]=='1' && $resultado[4]>0){
+        		print json_encode(array("Exito",$_POST,$resultado));
+				exit();
 
+      		    }else {
+        		print json_encode(array("Error",$_POST,$resultado));
+				exit();
+        		}
+
+				}
 
 	}else if (isset($_POST['consultar_info']) && $_POST['consultar_info']=="si_nombre_especifico") {
-
-
-		
 		$resultado = $modelo->get_todos("tb_natalidad","WHERE int_id_natalidad = '".$_POST['int_id_natalidad']."'");
 		if($resultado[0]=='1'){
         	print json_encode(array("Exito",$_POST,$resultado[2][0]));
@@ -56,24 +81,70 @@
 
 
 	}else if (isset($_POST['ingreso_datos']) && $_POST['ingreso_datos']=="si_registro") {
-		$id_insertar = $modelo->retonrar_id_insertar("tb_natalidad"); 
-        $array_insertar = array(
+   	    $encontro = "";
+		//consulta para obtener el nombre de la vaca y el tenero o ternera de la base
+		$sql = "SELECT
+				int_id_expe_madre, 
+				int_id_expe_ternero
+				FROM
+					tb_natalidad;";
+		$result_nombre = $modelo->get_query($sql);
+		if($result_nombre[0]=='1'){
+			foreach ($result_nombre[2] as $row) {
+				
+				if (($row['int_id_expe_madre'] == $_POST['int_id_expe_madre']) &&($row['int_id_expe_ternero'] == $_POST['int_id_expe_ternero'])){
+					$encontro = "bovinos encontrados";
+					break;
+				}
+			}
+			if ($encontro == "bovinos encontrados") {
+				print json_encode(array("Error","Ternero asignado a la vaca",$result_nombre));
+				exit();
+               //sino, guardamos todos los datos
+			}else{
+			$id_insertar = $modelo->retonrar_id_insertar("tb_natalidad"); 
+        	$array_insertar = array(
             "table" => "tb_natalidad",
             "int_id_natalidad"=>$id_insertar,
-             "dat_fecha_nacimiento" => $modelo->formatear_fecha($_POST['dat_fecha_nacimiento']),
-                 "int_id_expe_madre" => $_POST['int_id_expe_madre'],
-            "int_id_expe_ternero" => $_POST['int_id_expe_ternero']
-        );
-        $result = $modelo->insertar_generica($array_insertar);
+            "dat_fecha_nacimiento" => $modelo->formatear_fecha($_POST['dat_fecha_nacimiento']),
+            "int_id_expe_madre" => $_POST['int_id_expe_madre'],
+            "int_id_expe_ternero" => $_POST['int_id_expe_ternero']);
+        	$result = $modelo->insertar_generica($array_insertar);
 
-        if($result[0]=='1'){
+       		 if($result[0]=='1'){
         	print json_encode(array("Exito",$_POST,$result[2][0]));
 			exit();
 
-        }else {
+       		 }else {
         	print json_encode(array("Error",$_POST,$result));
 			exit();
-        }
+       		 }
+
+			 }
+	    }
+		else{
+			$id_insertar = $modelo->retonrar_id_insertar("tb_natalidad"); 
+        	$array_insertar = array(
+            "table" => "tb_natalidad",
+            "int_id_natalidad"=>$id_insertar,
+            "dat_fecha_nacimiento" => $modelo->formatear_fecha($_POST['dat_fecha_nacimiento']),
+            "int_id_expe_madre" => $_POST['int_id_expe_madre'],
+            "int_id_expe_ternero" => $_POST['int_id_expe_ternero']);
+        	$result = $modelo->insertar_generica($array_insertar);
+
+       		 if($result[0]=='1'){
+        	print json_encode(array("Exito",$_POST,$result[2][0]));
+			exit();
+
+       		 }else {
+        	print json_encode(array("Error",$_POST,$result));
+			exit();
+       		 }
+
+		}
+			
+		//aqui termina el if else de exito
+		
 
     }else if (isset($_POST['consultar_parto']) && $_POST['consultar_parto'] == "fecha") {
 		$idExpediente = $_POST['idExpediente'];

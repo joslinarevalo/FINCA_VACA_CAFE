@@ -54,7 +54,7 @@
                 <div class="card ">
                     <div class="card-header bg-success">
 
-                        <h2 class=" card-title">Registro de Baja</h2>
+                        <h1 class=" card-title">Registro de Baja</h1>
                         <div class="card-tools">
                             <a class="btn btn-success " href="#md_registrar_mortalidad" data-toggle="modal">
                                 <i class="fas fa-plus-circle"></i>
@@ -79,27 +79,27 @@
             </section>
 
             <!-- MODAL GUARDAR -->
-            <div class="modal fade" id="md_registrar_mortalidad" tabindex="-1" role="dialog" aria-labelledby=" exampleModalLabel" aria-hidden="true">
-
+            <div class="modal fade" id="md_registrar_mortalidad">
                 <div class="modal-dialog modal-ml" role="document">
                     <div class="modal-content">
-                        <div class="modal-header bg-success">
-                            <h1 class="modal-title text-center " id="exampleModalLabel">Registro de Baja </h1>
-                            <button type="button" class="btn bg-success btn_cerrar_class" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
+                        <form name="formulario_registroM" id="formulario_registroM">
+                            <input type="hidden" id="ingreso_datos" name="ingreso_datos" value="si_registro">
+                            <input type="hidden" id="llave_baja" name="llave_baja" value="si_registro">
+                            <input type="hidden" name="almacenar_datos" value="datonuevo">
+                            <div class="modal-header bg-success">
+                                <h1 class="modal-title text-center " id="exampleModalLabel">Registro de Baja </h1>
+                                <button type="button" class="btn bg-success btn_cerrar_class" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
 
-                            <form name="formulario_registroM" id="formulario_registroM">
-                                <input type="hidden" id="ingreso_datos" name="ingreso_datos" value="si_registro">
-                                <input type="hidden" id="llave_baja" name="llave_baja" value="si_registro">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <?php
                                         $usuario = 'root';
                                         $password = '';
-                                        $db = new PDO('mysql:host=localhost;dbname=db_finca', $usuario, $password);
+                                        $db = new PDO('mysql:host=localhost;dbname=db_finquita', $usuario, $password);
                                         ?>
                                         <div class="form-group">
 
@@ -135,7 +135,7 @@
                                                 </span>
                                             </div>
                                             <input type="text" class="form-control
-                                                    disabled" placeholder="mm/dd/yyyy" required name="fehca_baja" id="fehca_baja">
+                                                    disabled" placeholder="mm/dd/yyyy" required name="fehca_baja" id="fehca_baja" autocomplete="off">
                                         </div>
 
                                         <label>Descripción</label>
@@ -155,38 +155,43 @@
 
                                 </div>
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" id="boton_enviar" class="btn bg-success"><i class="fa fa-save"></i>Guardar</button>
+                                  <div class="modal-footer float-right">
+                                   <button type="submit" id="boton_enviar" class="btn bg-success" ><i class="fa fa-save"></i> Guardar</button>
+                                </div>
+                                <div class="modal-footer float-left">
+                                  <button type="button" class="btn btn-success  btn_cerrar_class"  aria-label="Close">Cerrar
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div> 
 
-                            <button type="button" class="btn bg-success btn_cerrar_class">Cerrar</button>
-                            </form>
-                        </div>
+
+                            </div>
                     </div>
+                    </form>
                 </div>
             </div>
               <!-- MODAL EDITAR -->
-            <div class="modal fade" id="md_modificar_mortalidad" tabindex="-1" role="dialog" aria-labelledby=" exampleModalLabel" aria-hidden="true">
-
+              <div class="modal fade" id="md_modificar_mortalidad">
                 <div class="modal-dialog modal-ml" role="document">
                     <div class="modal-content">
-                        <div class="modal-header bg-success">
-                            <h1 class="modal-title text-center " id="exampleModalLabel">Modificar Baja </h1>
-                            <button type="button" class="btn bg-success btn_cerrar_class" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
+                        <form name="formulario_Editar" id="formulario_Editar">
+                             <input type="hidden" id="ingreso_datos_edit" name="ingreso_datos_edit" value="si_actualizalo">
+                            <input type="hidden" id="llave_baja_edit" name="llave_baja_edit" value="si_actualizalo">
+                            
+                            <div class="modal-header bg-success">
+                                <h1 class="modal-title text-center " id="exampleModalLabel">Registro de Baja </h1>
+                                <button type="button" class="btn bg-success btn_cerrar_class" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
 
-                            <form name="formulario_Editar" id="formulario_Editar">
-                               
-                                <input type="hidden" id="llave_baja" name="llave_baja" value="si_registro">
                                 <div class="row">
                                     <div class="col-md-12">
                                         <?php
                                         $usuario = 'root';
                                         $password = '';
-                                        $db = new PDO('mysql:host=localhost;dbname=db_finca', $usuario, $password);
+                                        $db = new PDO('mysql:host=localhost;dbname=db_finquita', $usuario, $password);
                                         ?>
                                         <div class="form-group">
 
@@ -196,10 +201,10 @@
                                                 <span class="input-group-text">
                                                     <i class="fas fa fa-expand-arrows-alt"></i>
                                                 </span>
-                                                <select class="form-control" name="idexpeiente_baja" id="idexpeiente_baja" class="form-control select2">
+                                                <select class="form-control" name="idbajaeditar" id="idbajaeditar" class="form-control select2">
                                                     <option value="Seleccione">Seleccione</option>
                                                     <?php
-                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente");
+                                                    $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'inactivo'");
                                                     $query->execute();
                                                     $data = $query->fetchAll();
 
@@ -222,7 +227,7 @@
                                                 </span>
                                             </div>
                                             <input type="text" class="form-control
-                                                    disabled" placeholder="mm/dd/yyyy" required name="fecha" id="fehca" autocomplete="off">
+                                                    disabled" placeholder="mm/dd/yyyy" required name="fecha" id="fecha" autocomplete="off">
                                         </div>
 
                                         <label>Descripción</label>
@@ -232,7 +237,7 @@
                                                 <span class="input-group-text"><i class="fa fa fa-square"></i></span>
                                             </div>
 
-                                            <input type="text are" class="form-control" required id="descripcion" name="descripcion_baja" autocomplete="off">
+                                            <input type="text are" class="form-control" required id="descripcion" name="descripcion" autocomplete="off">
                                             <div class="input-group-append">
 
                                             </div>
@@ -242,16 +247,22 @@
 
                                 </div>
 
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" id="boton_enviar" class="btn bg-success"><i class="fa fa-save"></i>Guardar</button>
+                                  <div class="modal-footer float-right">
+                                   <button type="submit" id="boton_enviar" class="btn bg-success" ><i class="fa fa-save"></i>Modificar</button>
+                                </div>
+                                <div class="modal-footer float-left">
+                                  <button type="button" class="btn bg-success btn_cerrar_class" data-dismiss="modal" aria-label="Close">Cerrar
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                                </div> 
 
-                            <button type="button" class="btn bg-success btn_cerrar_class">Cerrar</button>
-                            </form>
-                        </div>
+
+                            </div>
                     </div>
+                    </form>
                 </div>
             </div>
+        
 
         </div>
 

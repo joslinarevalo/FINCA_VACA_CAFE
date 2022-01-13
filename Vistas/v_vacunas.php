@@ -103,10 +103,9 @@
                                     <?php
                                     $usuario = 'root';
                                     $password = '';
-                                    $db = new PDO('mysql:host=localhost;dbname=db_finca', $usuario, $password);
+                                    $db = new PDO('mysql:host=localhost;dbname=db_finquita', $usuario, $password);
                                     ?>
                                     <div class="col-md-6">
-
                                         <div class="form-group">
                                             <label>Bovino</label>
                                             <div class="input-group
@@ -128,9 +127,6 @@
                                                 </select>
                                             </div>
                                         </div>
-
-                                        <!-- /.form-group -->
-
                                         <div class="form-group">
                                             <label>Medicamento</label>
                                             <div class="input-group
@@ -188,9 +184,14 @@
 
                                 </div>
 
-                                <button type="submit" class="btn bg-success"><i class="fa fa-save"></i>Guardar</button>
-
-                                <button type="button" class="btn bg-success btn_cerrar_class">Cerrar</button>
+                                  <div class="modal-footer float-right">
+                                   <button type="submit" id="boton_enviar" class="btn bg-success" ><i class="fa fa-save"></i> Guardar</button>
+                                </div>
+                                <div class="modal-footer float-left">
+                                  <button type="button" class="btn btn-success  btn_cerrar_class"  aria-label="Close">Cerrar
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div> 
 
 
                             </div>
