@@ -193,6 +193,17 @@ $(function () {
 			});
 			return;
 		}
+		var fecha_inicio = $("#dat_fecha_monta_edit").val();
+        var fecha_fin = $("#dat_fecha_celo_edit").val();
+        var f1 = new Date(fecha_inicio);
+        var f2 = new Date(fecha_fin)
+		if (f1.getTime() > f2.getTime()){
+                        Toast1.fire({
+                                icon: 'error',
+                                title: 'La fecha de celo no puede ser mayor que la fecha de carga'
+                        });
+                        return;
+                }
 		console.log("Imprimiendo datos: ", datos);
 		//mostrar_mensaje("Almacenando información","Por favor no recargue la página");
 		$.ajax({
@@ -234,6 +245,17 @@ $(function () {
 			});
 			return;
 		}
+		var fecha_inicio = $("#dat_fecha_monta").val();
+        var fecha_fin = $("#dat_fecha_celo").val();
+        var f1 = new Date(fecha_inicio);
+        var f2 = new Date(fecha_fin)
+		if (f1.getTime() > f2.getTime()){
+                        Toast1.fire({
+                                icon: 'error',
+                                title: 'La fecha de celo no puede ser mayor que la fecha de carga'
+                        });
+                        return;
+                }
 		console.log("Imprimiendo datos: ", datos);
 		//mostrar_mensaje("Almacenando información","Por favor no recargue la página");
 		$.ajax({

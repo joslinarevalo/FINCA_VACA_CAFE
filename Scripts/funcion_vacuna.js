@@ -22,10 +22,24 @@ $(function (){
 	    todayHighlight: true,
 	    endDate:fecha_hoy
 	});
+		//NUEVO CODIGO
+	$(document).on("click", ".btn_abrir_modal_v", function (e) {
+		e.preventDefault();
+		document.getElementById('exampleModalLabel').innerText = 'Administración de Medicamento'
+		document.getElementById('boton_enviar').innerText = 'Guardar'
+	
+		document.getElementById('ingreso_datos').value = 'si_registro'
+	
+		modificar = false
+		$('#modalAddvacuna').modal('show');
+
+	});
 	$(document).on("click",".btn_editar",function(e){
 
 		e.preventDefault(); 
 	 //	mostrar_mensaje("Consultando datos");
+	 	document.getElementById('exampleModalLabel').innerText = 'Editar Control de Vacunas'
+		document.getElementById('boton_enviar').innerText = 'Modificar'
 		var int_id_control_vac = $(this).attr("data-int_id_control_vac");
 		console.log("El id es: ",int_id_control_vac);
 		var datos = {"consultar_info":"si_condui_especifico","int_id_control_vac":int_id_control_vac}
@@ -47,8 +61,10 @@ $(function (){
 	    		$('#fecha_aplicacion').val(fecha);
 	    		$('#vacuna').val(json[2]['nva_vacuna_aplicada']);
 	    		$('#dosis').val(json[2]['nva_dosis']);
-	    	
+	    	   document.getElementById('ingreso_datos').value = 'si_actualizalo'
+				modificar = true
 	    		$('#modalAddvacuna').modal('show');
+
 	    	}
 	    	 
 	    }).fail(function(){
@@ -83,7 +99,7 @@ $(function (){
 	        toast: true,
 	        position: 'top-end',
 	        showConfirmButton: false,
-	        timer: 7000
+	        timer: 1500
     	});
 			if ($("#id_exped_aplicado").val() == "Seleccione"){
 	 			Toast.fire({
@@ -114,18 +130,18 @@ $(function (){
 					if (modificar) {
 						Toast.fire({
 							icon: 'success',
-							title: 'Medicamento Modificado!.'
+							title: 'Control de vacuna Modificado!.'
 						})
 					} else {
 						Toast.fire({
 							icon: 'success',
-							title: 'Medicamento Registrado!.'
+							title: 'Control de vacuna Registrado!.'
 						})
 					}
-				$("#modalAddvacuna").trigger('reset');//ver aqui en modal o addmodal
+				
+				},500)
+         $("#modalAddvacuna").trigger('reset');//ver aqui en modal o addmodal
 				cargar_datos();
-				}, 400)
-         
         	}else if (json[1]=="Medicamento aplicado") {
 	    		Toast.fire({
 		            icon: 'error',

@@ -63,7 +63,7 @@
 
                         <h2 class=" card-title">Medicamento Aplicado al Bovino</h2>
                         <div class="card-tools">
-                            <a class="btn btn-success " href="#modalAddvacuna" data-toggle="modal">
+                            <a class="btn btn-success btn_abrir_modal_v" href="#" data-toggle="modal">
                                 <i class="fas fa-plus-circle"></i>
                                 Nuevo
                             </a>
@@ -92,7 +92,8 @@
                             <input type="hidden" id="llave_vacuna" name="llave_vacuna" value="si_registro">
                             <input type="hidden" name="almacenar_datos" value="datonuevo">
                             <div class="modal-header bg-success">
-                                <h1 class="modal-title text-center ">Administración de Medicamento </h1>
+                                <h1 class="modal-title text-center " id="exampleModalLabel"
+                                >Administración de Medicamento </h1>
                                 <button type="button" class="btn bg-success btn_cerrar_class" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>

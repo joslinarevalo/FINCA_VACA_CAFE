@@ -192,7 +192,7 @@
             <!---MODAL MODIFICAR-->
             <div class="modal fade" id="md_actualizar_prenez" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
-                <div class="modal-dialog modal-ml" role="document">
+                <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
                         <div class="modal-header bg-success">
                             <h2 class="modal-title text-center ">Actualizar  Preñez </h2>
@@ -205,21 +205,20 @@
                                 <input type="hidden" id="ingreso_datos" name="ingreso_datos" value="si_actualizalo">
                                  <input type="hidden" id="llave_preñez" name="llave_preñez" value="si_actualizalo">
                                 <div class="row">
-
-                                    <div class="col-md-12">
-                                         <?php
+                                      <div class="col-md-6">
+                                          <?php
                                         $usuario = 'root';
                                         $password = '';
                                         $db = new PDO('mysql:host=localhost;dbname=db_finquita', $usuario, $password);
                                         ?>
                                         <div class="form-group">
-                                            <label class="control-label">Bovino</label>
+                                             <label class="control-label">Bovino</label>
                                             <div class="input-group
-                                            mb-3">
-                                                <span class="input-group-text">
+                                             mb-3">
+                                                 <span class="input-group-text">
                                                     <i class="fas fa fa-expand-arrows-alt"></i>
-                                                </span>
-                                                <select class="form-control" name="int_bovino_edit" id="int_bovino_edit">
+                                                 </span>
+                                                <select class="form-control" name="int_bovino_edit" id="  int_bovino_edit">
                                                     <option value="Seleccione">Seleccione</option>
                                                     <?php
                                                     $query = $db->prepare("SELECT int_idexpediente,nva_nom_bovino FROM tb_expediente WHERE nva_estado_bovino = 'preñada' and nva_tipo_bovino='vaca_lechera'");
@@ -233,7 +232,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <label>Fecha de Celo</label>
+                                           <label>Fecha de Celo</label>
                                         <div class="input-group
                                                 mb-3">
                                             <div class="input-group-prepend">
@@ -245,8 +244,9 @@
                                             <input type="text" class="form-control
                                                     disabled " placeholder="mm/dd/yyyy" required name="dat_fecha_celo_edit" id="dat_fecha_celo_edit" autocomplete="off">
                                         </div>
-                                        <!-- /.form-group -->
-                                        <label>Fecha de Monta</label>
+                                      </div>
+                                     <div class="col-md-6">
+                                          <label>Fecha de Monta</label>
                                         <div class="input-group
                                                 mb-3">
                                             <div class="input-group-prepend">
@@ -258,7 +258,7 @@
                                             <input type="text" class="form-control
                                                     disabled" placeholder="mm/dd/yyyy" required name="dat_fecha_monta_edit" id="dat_fecha_monta_edit" autocomplete="off">
                                         </div>
-                                        <label>Fecha de Parto</label>
+                                         <label>Fecha de Parto</label>
                                         <div class="input-group
                                                 mb-3">
                                             <div class="input-group-prepend">
@@ -270,12 +270,13 @@
                                             <input type="text" class="form-control
                                             disabled" placeholder="mm/dd/yyyy" required name="dat_fecha_parto_edit" id="dat_fecha_parto_edit" autocomplete="off">
                                         </div>
-                                    </div>
-                                    <!-- /.col -->
+                                     </div>
+                                 
                                  </div>
                                    <div class="modal-footer float-right">
                                    <button type="submit" id="boton_enviar" class="btn bg-success" ><i class="fa fa-save"></i> Modificar</button>
                                 </div>
+                              
                                 <div class="modal-footer float-left">
                                 
                                      <button type="button" class="btn btn-success  btn_cerrar_class" data-dismiss="modal" aria-label="Close">
