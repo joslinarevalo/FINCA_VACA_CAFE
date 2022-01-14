@@ -36,7 +36,7 @@
           $esParida = true;
 
           //si encontramos un empleado con un usuario creado, notificamos antes de guardar
-        } else if ($dias <= 270) {
+        } else if ($dias <= 15) {
           $status = "está a " . $dias . " días de parir";
           $esParida = false;
         } else if ($dias <= 1) {

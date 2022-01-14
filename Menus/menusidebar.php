@@ -231,7 +231,7 @@
                                 </a>
                                 <ul class="nav nav-treeview">
                                     <li class="nav-item">
-                                        <a href="" class="nav-link">
+                                        <a href="#" class="nav-link">
                                             <p>Compras</p>
                                         </a>
                                     </li>
@@ -240,11 +240,17 @@
                                             <p>Ventas</p>
                                         </a>
                                     </li>
+                                     <li class="nav-item">
+                                        <a href="../Vistas/v_seleccion_reportes_expediente.php" class="nav-link">
+                                            <p>Expediente</p>
+                                        </a>
+                                    </li>
                                     <li class="nav-item">
                                         <a href="../Vistas/r_gastos.php" class="nav-link">
                                             <p>Gastos</p>
                                         </a>
                                     </li>
+                                    
                                     <li class="nav-item">
                                         <a href="" class="nav-link">
                                             <p>Producción de leche</p>
